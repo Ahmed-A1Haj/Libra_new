@@ -1,8 +1,11 @@
-﻿using Application.Issues.Commands;
+﻿using Application.Common.DataTableModels;
+using Application.Common.JsonResponseModels;
+using Application.Issues.Commands;
 using Application.Issues.Queries;
 using Application.Issues.ViewModels;
 using Application.Poses.Queries;
 using Application.Users.Queries;
+using Application.Users.ViewModels;
 using FluentValidation;
 using MediatR;
 using System;
@@ -30,14 +33,22 @@ namespace Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetIssues(CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<ActionResult> GetIssues(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters)
         {
             try
             {
-                var issues = await _mediator.Send(new GetIssuesGridQuery() { }, cancellationToken);
+                var issues = await _mediator.Send(new GetIssuesGridQuery() { DataTablesParameters = dataTablesParameters }, cancellationToken);
 
-                return Json(issues, JsonRequestBehavior.AllowGet);
+                return Json(
+                        new DataTableJsonResponse<IssueGridViewModel>
+                        {
+                            Draw = dataTablesParameters.Draw,
+                            RecordsTotal = dataTablesParameters.TotalCount,
+                            RecordsFiltered = dataTablesParameters.TotalCount,
+                            Data = issues
+                        },
+                        JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

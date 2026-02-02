@@ -1,7 +1,10 @@
-﻿using Application.Poses.Commands;
+﻿using Application.Common.DataTableModels;
+using Application.Common.JsonResponseModels;
+using Application.Poses.Commands;
 using Application.Poses.Queries;
 using Application.Poses.ViewModels;
 using Application.Users.Queries;
+using Application.Users.ViewModels;
 using FluentValidation;
 using MediatR;
 using System;
@@ -36,15 +39,23 @@ namespace Libra.Controllers
             return View();
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetPoses(CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<ActionResult> GetPoses(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters)
         {
 
             try
             {
-                var Poses = await _mediator.Send(new GetAllPosQuery() { }, cancellationToken);
+                var Poses = await _mediator.Send(new GetAllPosQuery() { DataTablesParameters = dataTablesParameters }, cancellationToken);
 
-                return Json(Poses, JsonRequestBehavior.AllowGet);
+                return Json(
+                        new DataTableJsonResponse<PosesGridViewModel>
+                        {
+                            Draw = dataTablesParameters.Draw,
+                            RecordsTotal = dataTablesParameters.TotalCount,
+                            RecordsFiltered = dataTablesParameters.TotalCount,
+                            Data = Poses
+                        },
+                        JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

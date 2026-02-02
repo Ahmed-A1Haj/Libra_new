@@ -1,4 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.Common.DataTableModels;
+using Application.Extentions;
+using Application.Interfaces;
 using Application.Issues.ViewModels;
 using Domain.Entities;
 using MediatR;
@@ -15,6 +17,7 @@ namespace Application.Issues.Queries
 {
     public class GetIssuesGridQuery : IRequest<IEnumerable<IssueGridViewModel>>
     {
+        public DataTablesParameters DataTablesParameters { get; set; }
     }
 
     public class GetIssuesGridQueryHandler : IRequestHandler<GetIssuesGridQuery, IEnumerable<IssueGridViewModel>>
@@ -36,7 +39,10 @@ namespace Application.Issues.Queries
                 Status = issue.Status.Status,
                 AssignedTo = issue.Assigned.Type,
                 Memo = issue.Memo
-            }).ToListAsync(cancellationToken);
+            }).AsQueryable().Search(request.DataTablesParameters)
+                .OrderBy(request.DataTablesParameters)
+                .Page(request.DataTablesParameters)
+                .ToListAsync(cancellationToken);
 
             return issues;
         }

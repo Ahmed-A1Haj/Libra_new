@@ -1,4 +1,6 @@
-﻿using Application.Users.Commands;
+﻿using Application.Common.DataTableModels;
+using Application.Common.JsonResponseModels;
+using Application.Users.Commands;
 using Application.Users.Queries;
 using Application.Users.ViewModels;
 using FluentValidation;
@@ -34,14 +36,23 @@ namespace Web.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetUsers(CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<ActionResult> GetUsers(DataTablesParameters dataTablesParameters, CancellationToken cancellationToken)
         {
             try
             {
-                var users = await _mediator.Send(new GetAllUsersQuery() { }, cancellationToken);
+                var users = await _mediator.Send(new GetAllUsersQuery() { DataTablesParameters = dataTablesParameters }, cancellationToken);
 
-                return Json(users, JsonRequestBehavior.AllowGet);
+                return 
+                    Json(
+                        new DataTableJsonResponse<UsersGridViewModel> 
+                        { 
+                            Draw = dataTablesParameters.Draw, 
+                            RecordsTotal = dataTablesParameters.TotalCount, 
+                            RecordsFiltered = dataTablesParameters.TotalCount,
+                            Data = users 
+                        }, 
+                        JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

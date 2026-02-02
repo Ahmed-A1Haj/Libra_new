@@ -2,9 +2,16 @@
     usersTable: () => ({
         ajax: {
             url: '/Admin/GetUsers',
-            type: 'GET',
-            dataSrc: ''
+            type: 'POST',
+            dataSrc: "Data"
         },
+        //select: {
+        //    style: 'single',
+        //    info: false,
+        //},
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
         columns: [
             { visible: false, data: 'Id' },
             { data: 'Name', title: 'Name' },
@@ -13,6 +20,28 @@
             { data: 'Telephone', title: 'Telephone' },
             { data: 'UserRole', title: 'UserRole' }
         ],
+        //buttons: [
+        //    {
+        //        text: 'Add User',
+        //        className: 'btn-success',
+        //        action: function (e, dt, node, config) {
+
+        //            loadPage('/Admin/GetAddUser');
+        //        }
+        //    },
+        //    {
+        //        text: 'Edit User',
+        //        className: 'btn-primary',
+        //        enabled: false,
+        //        action: function (e, dt, node, config) {
+
+        //            var table = $("usersTable").DataTable();
+        //            var id = table.rows({ selected: true }).data()[0].Id;
+
+        //            loadPage(`/Admin/GetEditUser/${id}`);
+        //        }
+        //    }
+        //],
         language: {
             search: "Filter records:", // Custom search placeholder
             lengthMenu: "Show _MENU_ entries",
@@ -34,9 +63,12 @@
     PosTable: () => ({
         ajax: {
             url: '/Pos/GetPoses',
-            type: 'GET',
-            dataSrc: ''
+            type: 'POST',
+            dataSrc: 'Data'
         },
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
         columns: [
             { visible: false, data: 'Id' },
             { data: 'Name', title: 'Pos Name' },
@@ -95,9 +127,12 @@
     IssuesTable: () => ({
         ajax: {
             url: '/Issue/GetIssues',
-            type: 'GET',
-            dataSrc: ''
+            type: 'POST',
+            dataSrc: 'Data'
         },
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
         columns: [
             { data: 'Id', title: "Issue#" },
             { data: 'PosName', title: 'Pos Name' },
@@ -128,10 +163,13 @@
     PosTable_Issue: () => ({
         ajax: {
             url: '/Pos/GetPoses',
-            type: 'GET',
-            dataSrc: ''
+            type: 'POST',
+            dataSrc: 'Data'
         },
         dom: 'lrtip',
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
         columns: [
             { visible: false, data: 'Id' },
             { data: 'Name', title: 'Pos Name' },

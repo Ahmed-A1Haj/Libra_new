@@ -180,3 +180,56 @@ hr {
 textarea {
     resize: none;
 }
+
+.card-row {
+    display: flex;
+    gap: 16px;
+}
+
+.card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.card i {
+    font-size: 22px;
+}
+
+.count {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.card a {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+/* Unique colors */
+.new {
+    background-color: #3498db;
+}
+
+.pending {
+    background-color: #f39c12;
+}
+
+.assigned {
+    background-color: #9b59b6;
+}
+
+.progress {
+    background-color: #2ecc71;
+}

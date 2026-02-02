@@ -1,4 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.Common.DataTableModels;
+using Application.Extentions;
+using Application.Interfaces;
 using Application.Poses.ViewModels;
 using MediatR;
 using System;
@@ -13,6 +15,7 @@ namespace Application.Poses.Queries
 {
     public class GetAllPosQuery : IRequest<IEnumerable<PosesGridViewModel>>
     {
+        public DataTablesParameters DataTablesParameters { get; set; }
     }
 
     public class GetAllPosQueryHandler : IRequestHandler<GetAllPosQuery, IEnumerable<PosesGridViewModel>>
@@ -28,16 +31,19 @@ namespace Application.Poses.Queries
             var Poses = await _context.Pos
                 .Include(x => x.Issues)
                 .Include(x => x.City)
-                .Select(pos => 
+                .Select(pos =>
                 new PosesGridViewModel
-            {
-                Id = pos.Id,
-                Name = pos.Name,
-                Address = pos.Address,
-                City = pos.City.CityName,
-                Telephone = pos.Telephone,
-                IssueCount = pos.Issues.Count(),
-            }).ToListAsync(cancellationToken);
+                {
+                    Id = pos.Id,
+                    Name = pos.Name,
+                    Address = pos.Address,
+                    City = pos.City.CityName,
+                    Telephone = pos.Telephone,
+                    IssueCount = pos.Issues.Count(),
+                }).AsQueryable().Search(request.DataTablesParameters)
+                .OrderBy(request.DataTablesParameters)
+                .Page(request.DataTablesParameters)
+                .ToListAsync(cancellationToken);
 
 
             return Poses;
