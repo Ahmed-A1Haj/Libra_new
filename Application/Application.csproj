@@ -231,6 +231,7 @@
     <Compile Include="Issues\Queries\GetIssueDetailsQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueLogsQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueProblemQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssuesByStatusQuery.cs" />
     <Compile Include="Issues\Queries\GetIssuesGridQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueStatusesQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueSubTypeQuery.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Issues\ViewModels\AddIssueViewModel.cs" />
     <Compile Include="Issues\ViewModels\EditIssueValidator.cs" />
     <Compile Include="Issues\ViewModels\EditIssueViewModel.cs" />
+    <Compile Include="Issues\ViewModels\IssueByStatusViewModel.cs" />
     <Compile Include="Issues\ViewModels\IssueDetailsViewModel.cs" />
     <Compile Include="Issues\ViewModels\IssueStatusViewModel.cs" />
     <Compile Include="Issues\ViewModels\IssueTypeViewModel.cs" />

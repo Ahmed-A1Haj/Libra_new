@@ -16,9 +16,11 @@ namespace Application.Issues.Commands
     public class EditIssueCommandHandler : IRequestHandler<EditIssueViewModel, bool>
     {
         private readonly IAppDbContext _context;
-        public EditIssueCommandHandler(IAppDbContext context)
+        private readonly ICurrentUserService _currentUserService;
+        public EditIssueCommandHandler(IAppDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
+            _currentUserService = currentUserService;
         }
         public async Task<bool> Handle(EditIssueViewModel updatedIssue, CancellationToken cancellationToken)
         {
@@ -51,7 +53,7 @@ namespace Application.Issues.Commands
                             Notes = "Closed",
                             InsertDate = DateTime.Now,
                             IssueId = toUpdateIssue.Id,
-                            UserId = toUpdateIssue.CreatedById
+                            UserId = _currentUserService.Id
                         };
                         _context.Logs.AddOrUpdate(log);
                     }
@@ -63,7 +65,7 @@ namespace Application.Issues.Commands
                             Notes = "log",
                             InsertDate = DateTime.Now,
                             IssueId = toUpdateIssue.Id,
-                            UserId = toUpdateIssue.CreatedById
+                            UserId = _currentUserService.Id
                         };
                         _context.Logs.AddOrUpdate(log);
                     }
