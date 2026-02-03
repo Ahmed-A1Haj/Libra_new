@@ -68,7 +68,7 @@ namespace Web.Controllers
 
             ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
 
-            return View("_GetAddUser");
+            return PartialView("_GetAddUser");
         }
 
         [HttpPost]
@@ -86,7 +86,7 @@ namespace Web.Controllers
 
                 var roles = await _mediator.Send(new GetUserRolesQuery() { });
                 ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                return View("GetAddUser", model);
+                return PartialView("_GetAddUser", model);
             }
             else
             {
@@ -109,7 +109,7 @@ namespace Web.Controllers
                     ModelState.AddModelError("", e.Message);
                     var roles = await _mediator.Send(new GetUserRolesQuery() { });
                     ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                    return View("GetAddUser", model);
+                    return PartialView("_GetAddUser", model);
                 }
 
             }
@@ -125,7 +125,7 @@ namespace Web.Controllers
 
             if (user == null) return View("Error");
             else
-                return View(user);
+                return PartialView("_GetUserDetails", user);
         }
 
         [HttpGet]
@@ -136,7 +136,7 @@ namespace Web.Controllers
             ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
             if (user == null) return View("Error");
             else
-                return View(user);
+                return PartialView("_GetEditUser", user);
         }
 
         [HttpPost]
@@ -154,7 +154,7 @@ namespace Web.Controllers
 
                 var roles = await _mediator.Send(new GetUserRolesQuery() { });
                 ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                return View("GetEditUser", model);
+                return PartialView("_GetEditUser", model);
             }
             else
             {
@@ -168,7 +168,7 @@ namespace Web.Controllers
                         var roles = await _mediator.Send(new GetUserRolesQuery() { });
                         ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
                         ModelState.AddModelError("", "An error occured in the server");
-                        return View("GetEditUser", model);
+                        return PartialView("_GetEditUser", model);
                     }
 
                 }
@@ -177,7 +177,7 @@ namespace Web.Controllers
                     var roles = await _mediator.Send(new GetUserRolesQuery() { });
                     ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
                     ModelState.AddModelError("", e.Message);
-                    return View("GetEditUser", model);
+                    return PartialView("_GetEditUser", model);
                 }
             }
         }

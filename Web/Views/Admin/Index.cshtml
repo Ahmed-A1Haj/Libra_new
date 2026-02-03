@@ -17,18 +17,44 @@
 </div>
 
 <div class="table-actions">
-    <button id="addUserBtn">Add User</button>
+    <button id="addUser" class="btn btn-primary" onclick="openModal({url: '/Admin/GetAddUser', data: 0})">Add User</button>
     <button id="editUserBtn" disabled>Edit User</button>
     <button id="UserDetailsBtn" disabled>Details</button>
 </div>
 
+<div class="justify-content-center">
+    <table id="usersTable"
+           class="display stripe cell-border"
+           style="width:100%" data-table="usersTable"></table>
+</div>
 
-<table id="usersTable"
-       class="display stripe cell-border"
-       style="width:100%" data-table="usersTable"></table>
 
 
 <script>
     initDataTables();
-    initTableInteractions("usersTable", "Admin", "User");
+
+    var tab = $('#usersTable').DataTable();
+
+    $('#usersTable tbody').off('click').on('click', 'tr', function () {
+
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            selectedUser = null;
+        } else {
+            tab.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            selectedUser = tab.row(this).data();
+        }
+        $(`#editUserBtn`).prop('disabled', !selectedUser);
+        $(`#UserDetailsBtn`).prop('disabled', !selectedUser);
+
+    });
+
+    $(`#editUserBtn`).off('click').on('click', function () {
+        openModal({ url: '/Admin/GetEditUser', data: selectedUser.Id });
+    });
+
+    $(`#UserDetailsBtn`).off('click').on('click', function () {
+        openModal({ url: '/Admin/GetUserDetails', data: selectedUser.Id });
+    });
 </script>

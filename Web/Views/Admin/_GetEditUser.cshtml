@@ -1,48 +1,61 @@
-﻿@using Application.Users.ViewModels
-@model AddUserViewModel
+﻿﻿@using Application.Users.ViewModels
+@model EditUserViewModel
+
 
 
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Create a new user</h5>
-        <button type="button" class="btn-close" id="btnCancel" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="staticBackdropLabel">Modify user</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="btnCancel" aria-label="Close"></button>
     </div>
-    @if (!ViewData.ModelState.IsValid)
+    @using (Ajax.BeginForm($"EditUser/{Model.Id}", "Admin", new AjaxOptions
     {
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" });
-    }
-    @using (Ajax.BeginForm("AddUser", "Admin", new AjaxOptions
-    {
-        HttpMethod = "POST"
+        HttpMethod = "POST",
     }, new { enctype = "multipart/form-data", id = "userForm" }))
     {
         <div class="modal-body">
             @Html.AntiForgeryToken()
             <div class="form-horizontal">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+                }
+
+                @Html.HiddenFor(model => model.Id, "Id")
                 <div class="form-group row mb-2 px-4">
                     <div class="col-6 col-md-4">
-                        @Html.LabelFor(model => model.Login, "Login", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Login, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-12 col-md-8">
-                        @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger validation-message", data_valmsg_for = "Login" })
                     </div>
                 </div>
                 <div class="form-group row mb-2 px-4">
                     <div class="col-6 col-md-4">
-                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2 required" })
+                        @Html.LabelFor(model => model.OldPassword, "OldPassword", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-12 col-md-8">
-                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "password" })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger validation-message", data_valmsg_for = "Password" })
+                        @Html.PasswordFor(model => model.OldPassword, htmlAttributes: new { @class = "form-control " })
+                        <small>Keep Empty if you dont want to change the password</small>
+                        @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger validation-message", data_valmsg_for = "OldPassword" })
                     </div>
                 </div>
                 <div class="form-group row mb-2 px-4">
                     <div class="col-6 col-md-4">
-                        @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2 required" })
+                        @Html.LabelFor(model => model.NewPassword, "New Password", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-12 col-md-8">
-                        @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control", type = "password" })
+                        @Html.PasswordFor(model => model.NewPassword, htmlAttributes: new { @class = "form-control " })
+                        @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger validation-message", data_valmsg_for = "NewPassword" })
+                    </div>
+                </div>
+                <div class="form-group row mb-2 px-4">
+                    <div class="col-6 col-md-4">
+                        @Html.LabelFor(model => model.ConfirmPassword, "Confirm New Password", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-12 col-md-8">
+                        @Html.PasswordFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "form-control " })
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger validation-message", data_valmsg_for = "ConfirmPassword" })
                     </div>
                 </div>
@@ -57,7 +70,7 @@
                 </div>
                 <div class="form-group row mb-2 px-4">
                     <div class="col-6 col-md-4">
-                        @Html.LabelFor(model => model.Telephone, "Telephone", htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.Telephone, "Phone Number", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-12 col-md-8">
                         @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
@@ -69,11 +82,10 @@
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                     </div>
                     <div class="col-12 col-md-8">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" + (ViewData.ModelState["Email"]?.Errors.Count > 0 ? " is-invalid" : "") } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger validation-message", data_valmsg_for = "Email" })
                     </div>
                 </div>
-
                 <div class="form-group row mb-2 px-4">
                     <div class="col-6 col-md-4">
                         @Html.LabelFor(model => model.UserTypeId, "Role", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -83,10 +95,21 @@
                         @Html.ValidationMessageFor(model => model.UserTypeId, "", new { @class = "text-danger validation-message", data_valmsg_for = "UserTypeId" })
                     </div>
                 </div>
+                <div class="form-group row mb-2 px-4">
+                    <div class="col-6 col-md-4">
+                        @Html.Label("Is Active")
+                    </div>
+                    <div class="col-12 col-md-8">
+                        @Html.CheckBoxFor(model => model.IsEnabled, new { @class = "form-check-input", @id = "flexSwitchCheckChecked" })
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary custom-primary">
+                <i class="bi bi-pencil"></i>
+                Modify
+            </button>
             <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Cancel</button>
         </div>
     }

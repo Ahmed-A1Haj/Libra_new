@@ -57,4 +57,5 @@ function initTableInteractions (tableId, controller, entity) {
     });
 
     
-}; 
+};
+

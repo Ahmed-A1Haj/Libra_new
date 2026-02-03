@@ -31,8 +31,7 @@ namespace Application.Poses.Queries
             var Poses = await _context.Pos
                 .Include(x => x.Issues)
                 .Include(x => x.City)
-                .Select(pos =>
-                new PosesGridViewModel
+                .Select(pos => new PosesGridViewModel
                 {
                     Id = pos.Id,
                     Name = pos.Name,
@@ -40,7 +39,9 @@ namespace Application.Poses.Queries
                     City = pos.City.CityName,
                     Telephone = pos.Telephone,
                     IssueCount = pos.Issues.Count(),
-                }).AsQueryable().Search(request.DataTablesParameters)
+                })
+                .AsQueryable()
+                .Search(request.DataTablesParameters)
                 .OrderBy(request.DataTablesParameters)
                 .Page(request.DataTablesParameters)
                 .ToListAsync(cancellationToken);
