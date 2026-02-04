@@ -98,10 +98,13 @@
             }
         }
     }),
-    IssuesTable: () => ({
+    IssuesTable: (s) => ({
         ajax: {
             url: '/Issue/GetIssues',
             type: 'POST',
+            data: function (d) {
+                d.extrasearch = s;
+            },
             dataSrc: 'Data'
         },
         processing: true,
@@ -191,7 +194,7 @@
         ],
         language: {
             lengthMenu: "Show _MENU_ entries",
-            info: "Showing _START_ to _END_ of _TOTAL_ Positions",
+            info: "Showing _START_ to _END_ of _TOTAL_ Logs",
             paginate: {
                 firstLast: false,
                 previous: "Prev",

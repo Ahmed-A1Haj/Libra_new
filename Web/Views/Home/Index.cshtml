@@ -23,7 +23,7 @@
                 <span>New Issues</span>
             </div>
         </div>
-        <a href="#" class="card-footer">
+        <a href="@Url.Action("Index", "Issue", new { search = "New" })" class="card-footer" data-spa>
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
         </a>
@@ -37,7 +37,7 @@
                 <span>Pending</span>
             </div>
         </div>
-        <a href="#" class="card-footer">
+        <a href="@Url.Action("Index", "Issue", new { search = "Pending" })" class="card-footer" data-spa>
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
         </a>
@@ -51,7 +51,7 @@
                 <span>Assigned</span>
             </div>
         </div>
-        <a href="#" class="card-footer">
+        <a href="@Url.Action("Index", "Issue", new { search = "Processing (assigned)" })" class="card-footer" data-spa>
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
         </a>
@@ -65,7 +65,7 @@
                 <span>Solved</span>
             </div>
         </div>
-        <a href="#" class="card-footer">
+        <a href="@Url.Action("Index", "Issue", new { search = "Solved" })" class="card-footer" data-spa>
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
         </a>

@@ -122,15 +122,17 @@
     </div>
 
     <div class="mb-4">
-        <table id="IssueLogs"
-               class="display stripe cell-border"
-               style="width:98%" data-table="IssueLogs"></table>
+        <div class="m-3" style="width:98%">
+            <table id="IssueLogs"
+                   class="display stripe cell-border"
+                   style="width:100%" data-table="IssueLogs"></table>
+        </div>
     </div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
+        </div>
     </div>
-</div>
 
 <script>
     var Pos = @Html.Raw(Json.Encode(Model.Pos));

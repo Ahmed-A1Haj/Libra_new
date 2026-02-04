@@ -28,17 +28,23 @@ namespace Web.Controllers
             _EditIssueValidator = editIssueValidator;
         }
         // GET: Issue
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
+            if(search != null)
+            {
+                ViewBag.search = search;
+                return View("_GetIssuesByStatus");
+            }
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetIssues(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters)
+        public async Task<ActionResult> GetIssues(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters,string extrasearch)
         {
             try
             {
-                var issues = await _mediator.Send(new GetIssuesGridQuery() { DataTablesParameters = dataTablesParameters }, cancellationToken);
+                var issues = await _mediator.Send(new GetIssuesGridQuery() { DataTablesParameters = dataTablesParameters, status = extrasearch }, cancellationToken);
+                
 
                 return Json(
                         new DataTableJsonResponse<IssueGridViewModel>
