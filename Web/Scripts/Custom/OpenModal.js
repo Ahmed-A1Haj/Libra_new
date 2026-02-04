@@ -55,7 +55,7 @@ $(document).on("submit", "#userForm", function (e) {
             else {
                 // success case
                 $("#modal").modal('hide');
-                loadPage("/admin");
+                myTable.ajax.reload();
             }
         },
         error: function (err) {
@@ -63,3 +63,9 @@ $(document).on("submit", "#userForm", function (e) {
         }
     });
 });
+
+
+function closeModal() {
+    $("#modal").modal('hide');
+    myTable.ajax.reload();
+};

@@ -38,46 +38,9 @@
 
             document.head.appendChild(newScript).parentNode.removeChild(newScript);
         });
-        //initDataTables();
-        //initTableInteractions("usersTable", "Admin", "User");
-        //initTableInteractions("PosesTable", "Pos", "Pos");
-        //initTableInteractions("IssuesTable", "Issue", "Issue");
-        //initTableInteractions("PosTable_Issue", "Issue", "IssuePos");
     }
 
     window.loadPage = loadPage;
-
-    //override <a> logic
-    //document.addEventListener("click", e => {
-    //    const link = e.target.closest("a[data-spa]");
-    //    if (!link) return;
-
-    //    e.preventDefault();
-    //    loadPage(link.href);
-    //});
-
-    //Cancel and back btn functionality
-    //document.addEventListener("click", function (e) {
-    //    const btn = e.target.closest("#btnCancel");
-    //    if (!btn) return;
-
-    //    e.preventDefault();
-
-    //    const path = window.location.pathname; // e.g. "/Admin/GetEditUser/2"
-    //    const parts = path.split("/").filter(p => p); // ["Admin", "GetEditUser", "2"]
-
-    //    if (parts.length > 0) {
-    //        const base = "/" + parts[0]; // "/Admin" or "/Pos"
-    //        loadPage(base);
-    //    } else {
-    //        loadPage("/Home/Index");
-    //    }
-    //});
-
-    // back btn in browser function
-    //window.addEventListener("popstate", (event) => {
-    //    loadPage(location.pathname, false); // false = don't push state again
-    //});
 
 
 })();

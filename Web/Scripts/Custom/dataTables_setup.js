@@ -10,7 +10,7 @@
 
         const config = configFactory(data);
 
-        $(this).DataTable(config);
+        myTable = $(this).DataTable(config);
     });
 }
 

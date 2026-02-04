@@ -149,7 +149,8 @@
 </div>
 
 <script>
-    var data = @Html.Raw(Json.Encode(Model.Pos));
+    var data = {};
+    data.pos = @Html.Raw(Json.Encode(Model.Pos));
     initDataTables(data);
 
     $(document).ready(function () {

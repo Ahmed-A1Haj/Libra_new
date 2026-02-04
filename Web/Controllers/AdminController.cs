@@ -167,7 +167,7 @@ namespace Web.Controllers
                     {
                         var roles = await _mediator.Send(new GetUserRolesQuery() { });
                         ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                        ModelState.AddModelError("", "An error occured in the server");
+                        ModelState.AddModelError("", "No Data were Changed");
                         return PartialView("_GetEditUser", model);
                     }
 

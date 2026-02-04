@@ -6,7 +6,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Modify user</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="btnCancel" aria-label="Close"></button>
+        <button type="button" class="btn-close" onclick="closeModal()"></button>
     </div>
     @using (Ajax.BeginForm($"EditUser/{Model.Id}", "Admin", new AjaxOptions
     {
@@ -110,7 +110,7 @@
                 <i class="bi bi-pencil"></i>
                 Modify
             </button>
-            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
         </div>
     }
 </div>
