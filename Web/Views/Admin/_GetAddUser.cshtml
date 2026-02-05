@@ -1,11 +1,12 @@
-﻿@using Application.Users.ViewModels
+﻿
+@using Application.Users.ViewModels
 @model AddUserViewModel
 
 
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Create a new user</h5>
-        <button type="button" class="btn-close" id="btnCancel" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" onclick="closeModal()"></button>
     </div>
     @if (!ViewData.ModelState.IsValid)
     {
@@ -13,8 +14,7 @@
     }
     @using (Ajax.BeginForm("AddUser", "Admin", new AjaxOptions
     {
-        HttpMethod = "POST",
-        OnSuccess = "handleCreateUpdateUser"
+        HttpMethod = "POST"
     }, new { enctype = "multipart/form-data", id = "userForm" }))
     {
         <div class="modal-body">
@@ -88,7 +88,8 @@
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Register</button>
-            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
         </div>
     }
 </div>
+

@@ -103,6 +103,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=8.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.8.14.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
@@ -147,6 +150,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -174,6 +178,24 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -184,25 +206,61 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\datatablemodels\DataTablesColumn.cs" />
+    <Compile Include="Common\datatablemodels\DataTablesOrder.cs" />
+    <Compile Include="Common\datatablemodels\DataTablesParameters.cs" />
+    <Compile Include="Common\datatablemodels\DataTablesSearch.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\jsonresponsemodels\BaseJsonResponse.cs" />
+    <Compile Include="Common\jsonresponsemodels\CollectionJsonResponse.cs" />
+    <Compile Include="Common\jsonresponsemodels\DataTableJsonResponse.cs" />
+    <Compile Include="Common\jsonresponsemodels\ExceptionJsonResponse.cs" />
+    <Compile Include="Common\jsonresponsemodels\FileJsonResponse.cs" />
+    <Compile Include="Common\jsonresponsemodels\SingleJsonResponse.cs" />
+    <Compile Include="Common\jsonresponsemodels\ViewResultJsonResponse.cs" />
     <Compile Include="Extentions\ApplicationDependencyInjection.cs" />
     <Compile Include="Extentions\ClaimExtention.cs" />
+    <Compile Include="Extentions\DataTableExtensions.cs" />
     <Compile Include="Interfaces\IAppDbContext.cs" />
     <Compile Include="Interfaces\ICurrentUserService.cs" />
     <Compile Include="Interfaces\IDateTime.cs" />
-    <Compile Include="Issues\Queries\GetIssuesByPosId.cs" />
+    <Compile Include="Issues\Commands\AddIssueCommandHandler.cs" />
+    <Compile Include="Issues\Commands\DeleteIssueCommand.cs" />
+    <Compile Include="Issues\Commands\EditIssueCommandHandler.cs" />
+    <Compile Include="Issues\Queries\GetIssueByIdQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssueDetailsQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssueLogsQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssueProblemQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssuesByStatusQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssuesGridQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssueStatusesQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssueSubTypeQuery.cs" />
+    <Compile Include="Issues\Queries\GetIssueTypesQuery.cs" />
+    <Compile Include="Issues\Queries\GetPriorityListQuery.cs" />
+    <Compile Include="Issues\ViewModels\AddIssueValidator.cs" />
+    <Compile Include="Issues\ViewModels\AddIssueViewModel.cs" />
+    <Compile Include="Issues\ViewModels\EditIssueValidator.cs" />
+    <Compile Include="Issues\ViewModels\EditIssueViewModel.cs" />
+    <Compile Include="Issues\ViewModels\IssueByStatusViewModel.cs" />
+    <Compile Include="Issues\ViewModels\IssueDetailsViewModel.cs" />
+    <Compile Include="Issues\ViewModels\IssueStatusViewModel.cs" />
+    <Compile Include="Issues\ViewModels\IssueTypeViewModel.cs" />
+    <Compile Include="Issues\ViewModels\LogGridViewModel.cs" />
+    <Compile Include="Issues\ViewModels\Priority.cs" />
     <Compile Include="Poses\Commands\AddPosCommand.cs" />
     <Compile Include="Poses\Commands\DeletePosCommand.cs" />
     <Compile Include="Poses\Commands\EditPosCommand.cs" />
     <Compile Include="Poses\Queries\GetAllCitiesQuery.cs" />
     <Compile Include="Poses\Queries\GetAllConnectionTypes.cs" />
     <Compile Include="Poses\Queries\GetAllPosQuery.cs" />
+    <Compile Include="Poses\Queries\GetPosByIdGridQuery.cs" />
     <Compile Include="Poses\Queries\GetPosByIdQuery.cs" />
     <Compile Include="Poses\ViewModels\AddPosValidator.cs" />
     <Compile Include="Poses\ViewModels\CityViewModel.cs" />
     <Compile Include="Poses\ViewModels\ConnectionTypeViewModel.cs" />
     <Compile Include="Poses\ViewModels\DayViewModel.cs" />
     <Compile Include="Poses\ViewModels\EditPosValidator.cs" />
-    <Compile Include="Poses\ViewModels\GetPosesViewModel.cs" />
+    <Compile Include="Poses\ViewModels\PosesGridViewModel.cs" />
     <Compile Include="Poses\ViewModels\EditPosViewModel.cs" />
     <Compile Include="Poses\ViewModels\PosDetailsViewModel.cs" />
     <Compile Include="Poses\ViewModels\PosViewModel.cs" />
@@ -220,10 +278,10 @@
     <Compile Include="Users\ViewModels\AddUserViewModel.cs" />
     <Compile Include="Users\ViewModels\EditUserViewModel.cs" />
     <Compile Include="Users\ViewModels\LoginUserViewModel.cs" />
-    <Compile Include="Poses\ViewModels\PosIssueViewModel.cs" />
+    <Compile Include="Issues\ViewModels\IssueGridViewModel.cs" />
     <Compile Include="Users\ViewModels\RoleViewModel.cs" />
     <Compile Include="Users\ViewModels\UserByNameAndPasswordViewModel.cs" />
-    <Compile Include="Users\ViewModels\UserViewModel.cs" />
+    <Compile Include="Users\ViewModels\UsersGridViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
@@ -235,10 +293,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Issues\Commands\" />
-    <Folder Include="Issues\ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

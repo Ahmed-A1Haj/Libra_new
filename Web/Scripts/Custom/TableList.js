@@ -2,9 +2,12 @@
     usersTable: () => ({
         ajax: {
             url: '/Admin/GetUsers',
-            type: 'GET',
-            dataSrc: ''
+            type: 'POST',
+            dataSrc: "Data"
         },
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
         columns: [
             { visible: false, data: 'Id' },
             { data: 'Name', title: 'Name' },
@@ -34,9 +37,12 @@
     PosTable: () => ({
         ajax: {
             url: '/Pos/GetPoses',
-            type: 'GET',
-            dataSrc: ''
+            type: 'POST',
+            dataSrc: 'Data'
         },
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
         columns: [
             { visible: false, data: 'Id' },
             { data: 'Name', title: 'Pos Name' },
@@ -78,6 +84,122 @@
             search: "Filter records:", // Custom search placeholder
             lengthMenu: "Show _MENU_ entries",
             info: "Showing _START_ to _END_ of _TOTAL_ Positions",
+            paginate: {
+                firstLast: false,
+                previous: "Prev",
+                next: "Next"
+            }
+        },
+        layout: {
+            bottomEnd: {
+                paging: {
+                    firstLast: false
+                }
+            }
+        }
+    }),
+    IssuesTable: (s) => ({
+        ajax: {
+            url: '/Issue/GetIssues',
+            type: 'POST',
+            data: function (d) {
+                d.extrasearch = s;
+            },
+            dataSrc: 'Data'
+        },
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
+        columns: [
+            { data: 'Id', title: "Issue#" },
+            { data: 'PosName', title: 'Pos Name' },
+            { data: 'CreatedBy', title: 'Created By' },
+            { data: 'Date', title: 'Date' },
+            { data: 'IssueType', title: 'Issue Type' },
+            { data: 'AssignedTo', title: 'Assigned To' },
+            { data: 'Memo', title: 'Memo' }
+        ],
+        language: {
+            search: "Filter records:", // Custom search placeholder
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ Positions",
+            paginate: {
+                firstLast: false,
+                previous: "Prev",
+                next: "Next"
+            }
+        },
+        layout: {
+            bottomEnd: {
+                paging: {
+                    firstLast: false
+                }
+            }
+        }
+    }),
+    PosTable_Issue: () => ({
+        ajax: {
+            url: '/Pos/GetPoses',
+            type: 'POST',
+            data: function (d) {
+                d.posName = posName;
+                d.posTelephone = posTelephone;
+                d.posAddress = posAddress;
+            },
+            dataSrc: 'Data'
+        },
+        dom: 'lrtip',
+        processing: true,
+        serverSide: true,
+        "dataType": "json",
+        columns: [
+            { visible: false, data: 'Id' },
+            { data: 'Name', title: 'Pos Name' },
+            { data: 'Telephone', title: 'Telephone' },
+            { data: 'Address', title: 'Address' },
+            { data: 'City', title: 'City' }
+        ],
+        language: {
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ Positions",
+            paginate: {
+                firstLast: false,
+                previous: "Prev",
+                next: "Next"
+            }
+        },
+        layout: {
+            bottomEnd: {
+                paging: {
+                    firstLast: false
+                }
+            }
+        }
+    }),
+    AddIssuePosItem: (data) => ({
+        data: data.pos,
+        dom: 'rt',
+        columns: [
+            { visible: false, data: 'Id' },
+            { data: 'Name', title: 'Pos Name' },
+            { data: 'Telephone', title: 'Telephone' },
+            { data: 'Address', title: 'Address' },
+            { data: 'City', title: 'City' },
+            { data: 'IssueCount', visible: false}
+        ]
+    }),
+    IssueLogs: (data) => ({
+        data: data.logs,
+        dom: 'lrtip',
+        columns: [
+            { data: 'Date', title: 'Date' },
+            { data: 'Action', title: 'Action' },
+            { data: 'User', title: 'User' },
+            { data: 'Notes', title: 'Notes' }
+        ],
+        language: {
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ Logs",
             paginate: {
                 firstLast: false,
                 previous: "Prev",

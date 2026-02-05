@@ -1,7 +1,10 @@
-﻿using Application.Poses.Commands;
+﻿using Application.Common.DataTableModels;
+using Application.Common.JsonResponseModels;
+using Application.Poses.Commands;
 using Application.Poses.Queries;
 using Application.Poses.ViewModels;
 using Application.Users.Queries;
+using Application.Users.ViewModels;
 using FluentValidation;
 using MediatR;
 using System;
@@ -36,15 +39,30 @@ namespace Libra.Controllers
             return View();
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetPoses(CancellationToken cancellationToken)
-        {
+        [HttpPost]
+        public async Task<ActionResult> GetPoses(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters, string posName, string posTelephone, string posAddress)
+       {
 
             try
             {
-                var Poses = await _mediator.Send(new GetAllPosQuery() { }, cancellationToken);
+                //dataTablesParameters.Search.Value =
+                var Poses = await _mediator.Send(new GetAllPosQuery() 
+                { 
+                    DataTablesParameters = dataTablesParameters, 
+                    Name = posName, 
+                    Telephone = posTelephone, 
+                    Address = posAddress 
+                }, cancellationToken);
 
-                return Json(Poses, JsonRequestBehavior.AllowGet);
+                return Json(
+                        new DataTableJsonResponse<PosesGridViewModel>
+                        {
+                            Draw = dataTablesParameters.Draw,
+                            RecordsTotal = dataTablesParameters.TotalCount,
+                            RecordsFiltered = dataTablesParameters.TotalCount,
+                            Data = Poses
+                        },
+                        JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -106,10 +124,7 @@ namespace Libra.Controllers
             {
                 try
                 {
-                    var addPos = await _mediator.Send(new AddPosCommand
-                    {
-                        Data = model
-                    });
+                    var addPos = await _mediator.Send(model);
 
                     if(addPos)
                     {
@@ -245,10 +260,7 @@ namespace Libra.Controllers
             {
                 try
                 {
-                    var editPos = await _mediator.Send(new EditPosCommand()
-                    {
-                        Data = model
-                    });
+                    var editPos = await _mediator.Send(model);
 
                     if (editPos) return RedirectToAction("Index");
                     else

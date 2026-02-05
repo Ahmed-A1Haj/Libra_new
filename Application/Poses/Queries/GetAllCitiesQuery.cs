@@ -31,7 +31,8 @@ namespace Application.Poses.Queries
                 City = city.CityName
             }).ToListAsync(cancellationToken);
 
-           
+
+
             return cities;
         }
     }

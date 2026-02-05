@@ -177,3 +177,76 @@ hr {
     position: relative;
 }
 
+textarea {
+    resize: none;
+}
+
+.card-row {
+    display: flex;
+    gap: 16px;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    border-radius: 6px;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px;
+}
+
+.card-icon {
+    font-size: 48px;
+    opacity: 0.8;
+}
+
+.card-info {
+    text-align: right;
+}
+
+    .card-info h2 {
+        margin: 0;
+        font-size: 40px;
+    }
+
+    .card-info span {
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+.card-footer {
+    background: #e0e0e0;
+    color: #555;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* Card colors */
+.new {
+    background: #3498db;
+}
+
+.pending {
+    background: #f39c12;
+}
+
+.assigned {
+    background: #9b59b6;
+}
+
+.progresss {
+    background: #2ecc71;
+}

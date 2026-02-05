@@ -13,12 +13,8 @@ using System.Threading.Tasks;
 
 namespace Application.Poses.Commands
 {
-    public class AddPosCommand : IRequest<bool>
-    {
-        public AddPosViewModel Data { get; set; }
-    }
 
-    public class AddPosCommandHandler : IRequestHandler<AddPosCommand, bool>
+    public class AddPosCommandHandler : IRequestHandler<AddPosViewModel, bool>
     {
         private readonly IAppDbContext _context;
 
@@ -26,18 +22,14 @@ namespace Application.Poses.Commands
         {
             _context = context;
         }
-        public async Task<bool> Handle(AddPosCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AddPosViewModel model, CancellationToken cancellationToken)
         {
-            var model = request.Data;
 
             if (model == null) return false;
 
             bool ifExists = _context.Pos.Any(x => x.Name == model.Name);
 
             if (ifExists) throw new Exception("Pos Already Exists");
-
-            var City = await _context.Cities.FirstOrDefaultAsync(x => x.Id == model.CityId);
-            var ConnType = await _context.ConnectionTypes.FirstOrDefaultAsync(x => x.Id == model.ConnectionTypeId);
 
             var selectedDays = string.Join(",", model.ClosingDays
                                                      .Where(x => x.IsChecked)
@@ -57,8 +49,8 @@ namespace Application.Poses.Commands
                 AfternoonClosing = model.AfternoonClosing,
                 InsertDate = DateTime.Now,
                 DaysClosed = selectedDays,
-                City = City,
-                ConnectionType = ConnType
+                CityId = model.CityId,
+                ConnectionTypeId = model.ConnectionTypeId
             };
 
             _context.Pos.AddOrUpdate(pos);

@@ -1,10 +1,8 @@
-﻿function initDataTables() {
+﻿function initDataTables(data) {
     $('[data-table]').each(function () {
         if ($.fn.DataTable.isDataTable(this)) return;
 
         const key = this.dataset.table;
-
-        const data = window.issuesData || null;
 
         const configFactory = tableList[key];
 
@@ -12,7 +10,7 @@
 
         const config = configFactory(data);
 
-        $(this).DataTable(config);
+        myTable = $(this).DataTable(config);
     });
 }
 
@@ -21,6 +19,10 @@ function initTableInteractions (tableId, controller, entity) {
     let selectedUser = null;
 
     const table = $(`#${tableId}`).DataTable();
+
+    $(`#edit${entity}Btn`).prop('disabled', !selectedUser);
+    $(`#${entity}DetailsBtn`).prop('disabled', !selectedUser);
+    $(`#Delete${entity}Btn`).prop('disabled', !selectedUser);
 
     $(`#${tableId} tbody`).off('click').on('click', 'tr', function () {
 
@@ -55,4 +57,11 @@ function initTableInteractions (tableId, controller, entity) {
     });
 
     
-}; 
+};
+
+//function reloadWithSearch(parameters) {
+//    posName = parameters.posName;
+//    posTelephone = parameters.posTelephone;
+//    posAddress = parameters.posAddress;
+//    table.ajax.reload(); // makes a new AJAX call
+//}

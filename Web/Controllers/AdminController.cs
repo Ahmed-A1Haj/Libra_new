@@ -1,4 +1,6 @@
-﻿using Application.Users.Commands;
+﻿using Application.Common.DataTableModels;
+using Application.Common.JsonResponseModels;
+using Application.Users.Commands;
 using Application.Users.Queries;
 using Application.Users.ViewModels;
 using FluentValidation;
@@ -13,7 +15,7 @@ using System.Web.Mvc;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IMediator _mediator;
@@ -31,17 +33,26 @@ namespace Web.Controllers
         public ActionResult Index()
         {
             return View();
-            
+
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetUsers(CancellationToken cancellationToken)
+        [HttpPost]
+        public async Task<ActionResult> GetUsers(DataTablesParameters dataTablesParameters, CancellationToken cancellationToken)
         {
             try
             {
-                var users = await _mediator.Send(new GetAllUsersQuery() { }, cancellationToken);
+                var users = await _mediator.Send(new GetAllUsersQuery() { DataTablesParameters = dataTablesParameters }, cancellationToken);
 
-                return Json(users, JsonRequestBehavior.AllowGet);
+                return 
+                    Json(
+                        new DataTableJsonResponse<UsersGridViewModel> 
+                        { 
+                            Draw = dataTablesParameters.Draw, 
+                            RecordsTotal = dataTablesParameters.TotalCount, 
+                            RecordsFiltered = dataTablesParameters.TotalCount,
+                            Data = users 
+                        }, 
+                        JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -57,7 +68,7 @@ namespace Web.Controllers
 
             ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
 
-            return View();
+            return PartialView("_GetAddUser");
         }
 
         [HttpPost]
@@ -75,16 +86,13 @@ namespace Web.Controllers
 
                 var roles = await _mediator.Send(new GetUserRolesQuery() { });
                 ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                return View("GetAddUser",model);
+                return PartialView("_GetAddUser", model);
             }
             else
             {
                 try
                 {
-                    var addUser = await _mediator.Send(new AddUserCommand
-                    {
-                        Data = model
-                    });
+                    var addUser = await _mediator.Send(model);
 
                     if (addUser)
                     {
@@ -96,16 +104,16 @@ namespace Web.Controllers
                         return Json(new { StatusCode = 500, message = "A problem on the server occured. Try again" });
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     ModelState.AddModelError("", e.Message);
                     var roles = await _mediator.Send(new GetUserRolesQuery() { });
                     ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                    return View("GetAddUser", model);
+                    return PartialView("_GetAddUser", model);
                 }
 
             }
-            
+
         }
 
         [HttpGet]
@@ -117,7 +125,7 @@ namespace Web.Controllers
 
             if (user == null) return View("Error");
             else
-                return View(user);
+                return PartialView("_GetUserDetails", user);
         }
 
         [HttpGet]
@@ -128,7 +136,7 @@ namespace Web.Controllers
             ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
             if (user == null) return View("Error");
             else
-                return View(user);
+                return PartialView("_GetEditUser", user);
         }
 
         [HttpPost]
@@ -146,36 +154,33 @@ namespace Web.Controllers
 
                 var roles = await _mediator.Send(new GetUserRolesQuery() { });
                 ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                return View("GetEditUser", model);
+                return PartialView("_GetEditUser", model);
             }
             else
             {
                 try
                 {
-                    var editUser = await _mediator.Send(new EditUserCommand()
-                    {
-                        Data = model
-                    });
+                    var editUser = await _mediator.Send(model);
 
                     if (editUser) return RedirectToAction("Index");
                     else
                     {
                         var roles = await _mediator.Send(new GetUserRolesQuery() { });
                         ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
-                        ModelState.AddModelError("", "An error occured in the server");
-                        return View("GetEditUser", model);
+                        ModelState.AddModelError("", "No Data were Changed");
+                        return PartialView("_GetEditUser", model);
                     }
 
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     var roles = await _mediator.Send(new GetUserRolesQuery() { });
                     ViewBag.UserRoles = new SelectList(roles, "Id", "Role");
                     ModelState.AddModelError("", e.Message);
-                    return View("GetEditUser", model);
+                    return PartialView("_GetEditUser", model);
                 }
             }
         }
-            
+
     }
 }

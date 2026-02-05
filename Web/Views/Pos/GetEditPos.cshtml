@@ -28,7 +28,7 @@
                                 <span class="input-group-text bg-primary text-white">
                                     <i class="bi bi-credit-card" style="margin-right: unset"></i>
                                 </span>
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control rounded" } })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control rounded", @readonly = "readonly" } })
                             </div>
                         </div>
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger validation-message", data_valmsg_for = "Name" })

@@ -2338,8 +2338,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Scripts\Custom\OpenModal.js" />
     <Content Include="Scripts\Custom\TableList.js" />
     <Content Include="Scripts\Custom\dataTables_setup.js" />
     <Content Include="Scripts\Custom\SPA_navigation.js" />
@@ -2420,15 +2422,21 @@
     <Content Include="Views\Pos\Index.cshtml" />
     <Content Include="Views\Shared\_navBar.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Admin\GetAddUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\GetUserDetails.cshtml" />
-    <Content Include="Views\Admin\GetEditUser.cshtml" />
     <Content Include="Views\Issue\Index.cshtml" />
     <Content Include="Views\Pos\GetAddPos.cshtml" />
     <Content Include="Views\Pos\GetEditPos.cshtml" />
     <Content Include="Views\Pos\GetPosDetails.cshtml" />
     <Content Include="Views\Pos\GetDeletePos.cshtml" />
+    <Content Include="Views\Admin\_GetAddUser.cshtml" />
+    <Content Include="Views\Issue\_GetAddIssue.cshtml" />
+    <Content Include="Views\Issue\_GetAddPosIssue.cshtml" />
+    <Content Include="Views\Issue\_GetEditIssue.cshtml" />
+    <Content Include="Views\Issue\_GetIssueDetails.cshtml" />
+    <Content Include="Views\Issue\_GetDeleteIssue.cshtml" />
+    <Content Include="Views\Admin\_GetEditUser.cshtml" />
+    <Content Include="Views\Admin\_GetUserDetails.cshtml" />
+    <Content Include="Views\Issue\_GetIssuesByStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

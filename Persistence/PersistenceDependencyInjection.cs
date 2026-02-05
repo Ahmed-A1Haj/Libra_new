@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Persistence
 {
-    public static class InfrastructureDependencyInjection
+    public static class PersistenceDependencyInjection
     {
         public static void Register(ContainerBuilder builder)
         {
