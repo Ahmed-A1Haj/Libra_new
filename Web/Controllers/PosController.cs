@@ -40,13 +40,19 @@ namespace Libra.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetPoses(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters)
-        {
+        public async Task<ActionResult> GetPoses(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters, string posName, string posTelephone, string posAddress)
+       {
 
             try
             {
                 //dataTablesParameters.Search.Value =
-                var Poses = await _mediator.Send(new GetAllPosQuery() { DataTablesParameters = dataTablesParameters }, cancellationToken);
+                var Poses = await _mediator.Send(new GetAllPosQuery() 
+                { 
+                    DataTablesParameters = dataTablesParameters, 
+                    Name = posName, 
+                    Telephone = posTelephone, 
+                    Address = posAddress 
+                }, cancellationToken);
 
                 return Json(
                         new DataTableJsonResponse<PosesGridViewModel>

@@ -59,3 +59,9 @@ function initTableInteractions (tableId, controller, entity) {
     
 };
 
+//function reloadWithSearch(parameters) {
+//    posName = parameters.posName;
+//    posTelephone = parameters.posTelephone;
+//    posAddress = parameters.posAddress;
+//    table.ajax.reload(); // makes a new AJAX call
+//}

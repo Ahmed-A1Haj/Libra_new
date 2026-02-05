@@ -141,6 +141,11 @@
         ajax: {
             url: '/Pos/GetPoses',
             type: 'POST',
+            data: function (d) {
+                d.posName = posName;
+                d.posTelephone = posTelephone;
+                d.posAddress = posAddress;
+            },
             dataSrc: 'Data'
         },
         dom: 'lrtip',
