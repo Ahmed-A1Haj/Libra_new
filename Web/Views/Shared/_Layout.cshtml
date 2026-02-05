@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Libra_temp</title>
     <script type="importmap"></script>
     @Styles.Render("~/Content/css")
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.5/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="~/Content/datatables.min.css">
     <link rel="stylesheet" href="~/Content/dataTables.bootstrap5.css" />
     <link rel="stylesheet" href="~/Content/navBar.css" />
     <link rel="stylesheet" href="~/Content/bootstrap-icons/font/bootstrap-icons.min.css" />
@@ -39,23 +39,26 @@
 </head>
 <body>
     <div class="page">
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
         <div class="sidebar">
             @Html.Partial("_navBar")
         </div>
 
         <main>
             <div class="top-row px-4">
-                @if (User.IsInRole("admin"))
-                {
-                    <a class="nav-link" style="color: cornflowerblue" href="#">
-                        <i class="bi bi-person-fill" style="margin-right: unset"></i>
-                        @User.Identity.Name
-                    </a>
-                    <a class="nav-link" style="color: cornflowerblue">
-                        <i class="bi bi-box-arrow-right" style="margin-right: unset"></i>
-                        @Html.ActionLink("Logout", "Logout", "Account")
-                    </a>
-                }
+                <a class="nav-link" style="color: cornflowerblue" href="#">
+                    <i class="bi bi-person-fill" style="margin-right: unset"></i>
+                    @User.Identity.Name
+                </a>
+                <a class="nav-link" style="color: cornflowerblue">
+                    <i class="bi bi-box-arrow-right" style="margin-right: unset"></i>
+                    @Html.ActionLink("Logout", "Logout", "Account")
+                </a>
             </div>
 
             <article id="spa-content" class="content px-4 spa-content">
@@ -64,11 +67,13 @@
         </main>
     </div>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     @Scripts.Render("~/bundles/datatables")
     <script src="~/Scripts/Custom/dataTables_setup.js"></script>
     <script src="~/Scripts/Custom/SPA_navigation.js"></script>
+    <script src="~/Scripts/Custom/OpenModal.js"></script>
     @Scripts.Render("~/bundles/toastr")
     @RenderSection("Scripts", required: false)
 </body>
@@ -76,10 +81,45 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    // sidebar navigation override
+    document.addEventListener("click", e => {
+        const link = e.target.closest("a[data-spa]");
+        if (!link) return;
 
-        initDataTables();
-        initTableInteractions("usersTable", "Admin", "User");
-        initTableInteractions("PosesTable", "Pos", "Pos");
+        e.preventDefault();
+        loadPage(link.href);
     });
+
+    document.addEventListener("click", function (e) {
+        const btn = e.target.closest("#btnCancel");
+        if (!btn) return;
+
+        e.preventDefault();
+
+        const path = window.location.pathname; // e.g. "/Admin/GetEditUser/2"
+        const parts = path.split("/").filter(p => p); // ["Admin", "GetEditUser", "2"]
+
+        if (parts.length > 0) {
+            const base = "/" + parts[0]; // "/Admin" or "/Pos"
+            loadPage(base);
+        } else {
+            loadPage("/Home/Index");
+        }
+    });
+
+    $(document).ready(function () {
+        $('input[type=text], input[type=password], input[type=email], select').on('input', function () {
+            var fieldName = $(this).attr('name');
+            $('span[data-valmsg-for="' + fieldName + '"]').text('');
+            $(this).removeClass('is-invalid');
+        });
+    });
+
+    // back btn in browser function
+    window.addEventListener("popstate", (event) => {
+        loadPage(location.pathname, false); // false = don't push state again
+    });
+
+
+
 </script>

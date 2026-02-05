@@ -1,4 +1,6 @@
-﻿using Application.Interfaces;
+﻿using Application.Common.DataTableModels;
+using Application.Extentions;
+using Application.Interfaces;
 using Application.Users.ViewModels;
 using Domain.Entities;
 using MediatR;
@@ -12,11 +14,12 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Queries
 {
-    public class GetAllUsersQuery : IRequest<IEnumerable<UserViewModel>>
+    public class GetAllUsersQuery : IRequest<IEnumerable<UsersGridViewModel>>
     {
+        public DataTablesParameters DataTablesParameters { get; set; }
     }
 
-    public class GetUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserViewModel>>
+    public class GetUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UsersGridViewModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -25,41 +28,24 @@ namespace Application.Users.Queries
             _context = context;
         }
 
-        public async Task<IEnumerable<UserViewModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<UsersGridViewModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            //var users = await _context.Users.Include(x => x.UserType).ToListAsync(cancellationToken);
 
-            //var userViewModels = new List<UserViewModel>();
-
-            List<UserViewModel> userViewModels = await _context.Users
+            List<UsersGridViewModel> userViewModels = await _context.Users
                 //.Include(x => x.UserType)
-                .Select(user =>
-             new UserViewModel
-             {
-                 Id = user.Id,
-                 Name = user.Name,
-                 Login = user.Login,
-                 Telephone = user.Telephone,
-                 Email = user.Email,
-                 IsEnabled = user.IsEnabled,
-                 UserRole = user.UserType.Type
-             }).ToListAsync(cancellationToken);
-
-            //foreach (var user in users)
-            //{
-            //    var userViewModel = new UserViewModel
-            //    {
-            //        Id = user.Id,
-            //        Name = user.Name,
-            //        Login = user.Login,
-            //        Telephone = user.Telephone,
-            //        Email = user.Email,
-            //        IsEnabled = user.IsEnabled,
-            //        UserRole = user.UserType.Type
-            //    };
-            //    userViewModels.Add(userViewModel);
-
-            //}
+                .Select(user => new UsersGridViewModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Login = user.Login,
+                    Telephone = user.Telephone,
+                    Email = user.Email,
+                    IsEnabled = user.IsEnabled,
+                    UserRole = user.UserType.Type
+                }).AsQueryable().Search(request.DataTablesParameters)
+                .OrderBy(request.DataTablesParameters)
+                .Page(request.DataTablesParameters)
+                .ToListAsync(cancellationToken);
 
             return userViewModels;
         }

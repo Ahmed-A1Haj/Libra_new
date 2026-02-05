@@ -157,7 +157,40 @@
             var Issue3SubType2 = new IssueType { IssueLevel = 2, ParentIssueId = 3, Name = "Authorization Request", InsertDate = DateTime.Now };
             var Issue3SubType3 = new IssueType { IssueLevel = 2, ParentIssueId = 3, Name = "Unautharized Login", InsertDate = DateTime.Now };
 
-            context.IssueTypes.AddOrUpdate(IssueType1, IssueType2, IssueType3, Issue1SubType1, Issue1SubType2, Issue1SubType3, Issue2SubType1, Issue2SubType2, Issue2SubType3, Issue3SubType1, Issue3SubType2, Issue3SubType3);
+            var Problem1Issue1SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 4, Name = "Request new headphones", InsertDate = DateTime.Now };
+            var Problem2Issue1SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 4, Name = "Request new mouse", InsertDate = DateTime.Now };
+            var Problem3Issue1SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 4, Name = "Request new Keyboard", InsertDate = DateTime.Now };
+
+            var Problem1Issue1SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 5, Name = "Faulty Monitor", InsertDate = DateTime.Now };
+            var Problem2Issue1SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 5, Name = "Faulty Pc", InsertDate = DateTime.Now };
+            var Problem3Issue1SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 5, Name = "Faulty Accessories", InsertDate = DateTime.Now };
+
+            var Problem1Issue1SubType3 = new IssueType { IssueLevel = 3, ParentIssueId = 6, Name = "Request new Laptop", InsertDate = DateTime.Now };
+            var Problem2Issue1SubType3 = new IssueType { IssueLevel = 3, ParentIssueId = 6, Name = "Request laptop Change", InsertDate = DateTime.Now };
+
+            var Problem1Issue2SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 7, Name = "Installer broken", InsertDate = DateTime.Now };
+            var Problem2Issue2SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 7, Name = "Version Mismatch", InsertDate = DateTime.Now };
+            var Problem3Issue2SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 7, Name = "Requst update", InsertDate = DateTime.Now };
+
+            var Problem1Issue2SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 8, Name = "Request Reroll", InsertDate = DateTime.Now };
+            var Problem2Issue2SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 8, Name = "Request Update", InsertDate = DateTime.Now };
+            var Problem3Issue2SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 8, Name = "Requset Reinstall", InsertDate = DateTime.Now };
+
+            var Problem1Issue2SubType3 = new IssueType { IssueLevel = 3, ParentIssueId = 9, Name = "Request Software update", InsertDate = DateTime.Now };
+            var Problem2Issue2SubType3 = new IssueType { IssueLevel = 3, ParentIssueId = 9, Name = "Request new software", InsertDate = DateTime.Now };
+
+            var Problem1Issue3SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 10, Name = "Request app access", InsertDate = DateTime.Now };
+            var Problem2Issue3SubType1 = new IssueType { IssueLevel = 3, ParentIssueId = 10, Name = "Request app removal", InsertDate = DateTime.Now };
+
+            var Problem1Issue3SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 11, Name = "Request Admin Access", InsertDate = DateTime.Now };
+            var Problem2Issue3SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 11, Name = "Requst new VPN", InsertDate = DateTime.Now };
+            var Problem3Issue3SubType2 = new IssueType { IssueLevel = 3, ParentIssueId = 11, Name = "Request remote Access", InsertDate = DateTime.Now };
+
+            var Problem1Issue3SubType3 = new IssueType { IssueLevel = 3, ParentIssueId = 12, Name = "Report Unautharized login", InsertDate = DateTime.Now };
+            var Problem2Issue3SubType3 = new IssueType { IssueLevel = 3, ParentIssueId = 12, Name = "Report Auth problem", InsertDate = DateTime.Now };
+           
+
+            context.IssueTypes.AddOrUpdate(IssueType1, IssueType2, IssueType3, Issue1SubType1, Issue1SubType2, Issue1SubType3, Issue2SubType1, Issue2SubType2, Issue2SubType3, Issue3SubType1, Issue3SubType2, Issue3SubType3, Problem1Issue1SubType1, Problem1Issue1SubType2,Problem1Issue1SubType3, Problem1Issue2SubType1, Problem1Issue2SubType2, Problem1Issue2SubType3, Problem1Issue3SubType1, Problem1Issue3SubType2, Problem1Issue3SubType3, Problem2Issue1SubType1, Problem2Issue1SubType2, Problem2Issue1SubType3, Problem2Issue2SubType1, Problem2Issue2SubType2, Problem2Issue2SubType3, Problem2Issue3SubType1, Problem2Issue3SubType2, Problem2Issue3SubType3, Problem3Issue1SubType1, Problem3Issue1SubType2, Problem3Issue2SubType1, Problem3Issue2SubType2, Problem3Issue3SubType2);
             context.Save();
             Console.WriteLine("pass3");
 

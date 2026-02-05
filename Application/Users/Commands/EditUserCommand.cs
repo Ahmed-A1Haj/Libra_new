@@ -12,12 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands
 {
-    public class EditUserCommand : IRequest<bool>
-    {
-        public EditUserViewModel Data { get; set; }
-    }
-
-    public class EditUserCommandHandler : IRequestHandler<EditUserCommand, bool>
+    public class EditUserCommandHandler : IRequestHandler<EditUserViewModel, bool>
     {
         private readonly IAppDbContext _context;
 
@@ -26,9 +21,8 @@ namespace Application.Users.Commands
             _context = context;
         }
 
-        public async Task<bool> Handle(EditUserCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(EditUserViewModel updatedUser, CancellationToken cancellationToken)
         {
-            var updatedUser = request.Data;
 
             var toUpdateUser = await _context.Users.FindAsync(updatedUser.Id);
 

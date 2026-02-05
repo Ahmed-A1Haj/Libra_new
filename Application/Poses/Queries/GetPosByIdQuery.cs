@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Issues.ViewModels;
 using Application.Poses.ViewModels;
 using Application.Users.ViewModels;
 using Domain.Entities;
@@ -48,12 +49,12 @@ namespace Application.Poses.Queries
                     AfternoonOpening = pos.AfternoonOpening,
                     AfternoonClosing = pos.AfternoonClosing,
                     ClosingDays = pos.DaysClosed,
-                    Issues = pos.Issues.Select(issue => new PosIssueViewModel
+                    Issues = pos.Issues.Select(issue => new IssueGridViewModel
                     {
                         Id = issue.Id,
                         PosName = pos.Name,
                         CreatedBy = issue.CreatedBy.Name,
-                        Date = issue.Created,
+                        Date = issue.Created.ToString(),
                         IssueType = issue.Type.Name,
                         Status = issue.Status.Status,
                         AssignedTo = issue.Assigned.Type,

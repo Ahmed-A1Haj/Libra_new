@@ -1,4 +1,4 @@
-﻿using Application.Users.ViewModels;
+﻿using Application.Issues.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +23,6 @@ namespace Application.Poses.ViewModels
         public TimeSpan AfternoonOpening { get; set; }
         public TimeSpan AfternoonClosing { get; set; }
         public string ClosingDays { get; set; }
-        public List<PosIssueViewModel> Issues { get; set; }
+        public List<IssueGridViewModel> Issues { get; set; }
     }
 }

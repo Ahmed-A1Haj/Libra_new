@@ -31,7 +31,6 @@ namespace Web
                 "~/Scripts/toastr.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
                       "~/Content/bootstrap.min.css",
                       "~/Views/Shared/_Layout.cshtml.css",
                       "~/Content/site.css",

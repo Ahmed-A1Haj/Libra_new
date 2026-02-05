@@ -1,0 +1,274 @@
+﻿@using Application.Issues.ViewModels
+@model EditIssueViewModel
+
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+@Scripts.Render("~/bundles/datatables")
+<script src="~/Scripts/Custom/dataTables_setup.js"></script>
+<script src="~/Scripts/Custom/SPA_navigation.js"></script>
+@Scripts.Render("~/bundles/toastr")
+
+<div class="modal-header mb-4">
+    <h3 class="modal-title" id="staticBackdropLabel">Edit Issue</h3>
+    <button type="button" class="btn-close" id="btnCancel" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+
+
+<div class="modal-content">
+
+    <div class="modal-header mb-4" style="background-color: lightblue; padding: 0.5rem">
+        <h5 class="modal-title fw-light" id="staticBackdropLabel">Edit Issue For</h5>
+    </div>
+
+    <div class="mb-4">
+        <table id="AddIssuePosItem"
+               class="display stripe cell-border"
+               style="width:98%" data-table="AddIssuePosItem"></table>
+    </div>
+
+
+    <div class="modal-header mb-2" style="background-color: lightblue; padding: 0.5rem">
+        <h5 class="modal-title fw-light" id="staticBackdropLabel">Issue Details</h5>
+    </div>
+
+    @using (Ajax.BeginForm("EditIssue", "Issue", new AjaxOptions
+    {
+        HttpMethod = "POST",
+    }, new { enctype = "multipart/form-data", id = "AddPosForm" }))
+    {
+        <div class="modal-body">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.PosId)
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TypeId, "Issue Type", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.TypeId, (SelectList)ViewBag.Types, "Select Type", new { @class = "form-select dropdown-toggle", id = "TypeId" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger validation-message", data_valmsg_for = "TypeId" })
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SubTypeId, "Subclass", htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.SubTypeId, Enumerable.Empty<SelectListItem>(), "-- Select Subtype --",
+                 new { @class = "form-select dropdown-toggle", id = "SubTypeId", @disabled = "disabled" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.SubTypeId, "", new { @class = "text-danger validation-message", data_valmsg_for = "SubtypeId" })
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProblemId, "Problem", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.ProblemId, Enumerable.Empty<SelectListItem>(), "-- Select Problem --",
+                 new { @class = "form-select dropdown-toggle", id = "ProblemId", @disabled = "disabled" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.ProblemId, "", new { @class = "text-danger validation-message", data_valmsg_for = "ProblemId" })
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Priority, "Priority", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.Priority, (SelectList)Model.PriorityList, "Select Priority", new { @class = "form-select dropdown-toggle" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger validation-message", data_valmsg_for = "Priority" })
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StatusId, "Status", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.StatusId, (SelectList)ViewBag.Statuses, "Select Status", new { @class = "form-select dropdown-toggle" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger validation-message", data_valmsg_for = "CityId" })
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                            <div class="input-group">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control rounded", rows = "5" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger validation-message", data_valmsg_for = "Description" })
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                            <div class="input-group">
+                                @Html.TextAreaFor(model => model.Solution, new { @class = "form-control rounded", rows = "5" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Solution, "", new { @class = "text-danger validation-message", data_valmsg_for = "Solution" })
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AssignedToId, "Assigned To", htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                            <div class="input-group">
+                                @Html.DropDownListFor(model => model.AssignedToId, (SelectList)ViewBag.Assigned, "Select Status", new { @class = "form-select dropdown-toggle" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.AssignedToId, "", new { @class = "text-danger validation-message", data_valmsg_for = "AssignedToId" })
+
+                        <div class="form-group mt-4">
+                            @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                            <div class="input-group">
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="bi bi-info-lg" style="margin-right: unset"></i>
+                                </span>
+                                @Html.TextBoxFor(model => model.Memo, new { @class = "form-control rounded" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger validation-message", data_valmsg_for = "Memo" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-header mb-4" style="background-color: lightblue; padding: 0.5rem">
+            <h5 class="modal-title fw-light" id="staticBackdropLabel">Issue logs</h5>
+        </div>
+
+        <div class="mb-4">
+            <div class="m-3" style="width:98%">
+                <table id="IssueLogs"
+                       class="display stripe cell-border"
+                       style="width:100%" data-table="IssueLogs"></table>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-pencil"></i>
+                Edit
+            </button>
+            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
+        </div>
+
+    }
+
+
+</div>
+
+<script>
+    var Pos = @Html.Raw(Json.Encode(Model.Pos));
+    var Logs = @Html.Raw(Json.Encode(Model.Logs));
+    var data = {
+        pos: Pos,
+        logs: Logs
+    };
+    initDataTables(data);
+
+    $(document).ready(function () {
+
+        function loadSubTypes(typeId, selectedSubTypeId) {
+
+            if (!typeId) {
+                $('#SubTypeId')
+                    .prop('disabled', true)
+                    .empty()
+                    .append('<option value="">-- Select Subtype --</option>');
+                return;
+            }
+
+
+            $('#SubTypeId').prop('disabled', false);
+
+            $.ajax({
+                url: '@Url.Action("GetSubtypes", "Issue")',
+                type: 'GET',
+                data: { typeId: typeId },
+                success: function (data) {
+                    $('#SubTypeId').empty();
+                    $('#SubTypeId').append('<option value="">-- Select Subtype --</option>');
+
+                    $.each(data, function (i, item) {
+                        $('#SubTypeId').append(
+                            $('<option>', {
+                                value: item.Id,
+                                text: item.Type,
+                                selected: selectedSubTypeId == item.Id
+                            })
+                        );
+                    });
+                }
+            });
+
+        }
+
+
+        function loadProblems(SubTypeId, selectedProblemId) {
+
+            if (!SubTypeId) {
+                $('#ProblemId')
+                    .prop('disabled', true)
+                    .empty()
+                    .append('<option value="">-- Select Problem --</option>');
+                return;
+            }
+
+
+            $('#ProblemId').prop('disabled', false);
+
+            $.ajax({
+                url: '@Url.Action("GetProblems", "Issue")',
+                type: 'GET',
+                data: { typeId: SubTypeId },
+                success: function (data) {
+                    $('#ProblemId').empty();
+                    $('#ProblemId').append('<option value="">-- Select Problem --</option>');
+
+                    $.each(data, function (i, item) {
+                        $('#ProblemId').append(
+                            $('<option>', {
+                                value: item.Id,
+                                text: item.Type,
+                                selected: selectedProblemId == item.Id
+                            })
+                        );
+                    });
+                }
+            });
+
+        }
+
+
+        // When Type changes
+        $('#TypeId').change(function () {
+            var typeId = $(this).val();
+            loadSubTypes(typeId, null);
+        });
+
+        // When subTypes change
+        $('#SubTypeId').change(function () {
+            var subTypeId = $(this).val();
+            loadProblems(subTypeId, null);
+        });
+
+        // 🔹 EDIT PAGE: load on page load if Type already selected
+        var initialTypeId = $('#TypeId').val();
+        var initialSubTypeId = @(Model.SubTypeId.HasValue ? Model.SubTypeId : 0);
+        var initialProblemId = @(Model.ProblemId.HasValue ? Model.ProblemId : 0);
+
+        if (initialTypeId) {
+            loadSubTypes(initialTypeId, initialSubTypeId);
+        }
+        if (initialSubTypeId) {
+            loadProblems(initialSubTypeId, initialProblemId);
+        }
+
+
+    });
+</script>
+

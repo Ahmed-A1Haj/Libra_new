@@ -3,21 +3,35 @@
     ViewBag.Title = "Index";
 }
 
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+@Scripts.Render("~/bundles/datatables")
+<script src="~/Scripts/Custom/dataTables_setup.js"></script>
+<script src="~/Scripts/Custom/SPA_navigation.js"></script>
+@Scripts.Render("~/bundles/toastr")
+
 <div class="text-lg-start fw-bold">
     <h2 class="display-4">Pos</h2>
     <hr />
 </div>
 
 <div class="table-actions">
-    <button id="addPosBtn">Add Pos</button>
-    <button id="editPosBtn" disabled>Edit Pos</button>
-    <button id="PosDetailsBtn" disabled>Details</button>
-    <button id="DeletePosBtn" disabled>Delete</button>
+    <button class="btn btn-success" id="addPosBtn">Add Pos</button>
+    <button class="btn btn-primary" id="editPosBtn" disabled>Edit Pos</button>
+    <button class="btn btn-secondary" id="PosDetailsBtn" disabled>Details</button>
+    <button class="btn btn-danger" id="DeletePosBtn" disabled>Delete</button>
 </div>
 
 
-    
-<table id="PosesTable" 
-       class="display stripe cell-border" 
+
+<table id="PosesTable"
+       class="display stripe cell-border"
        style="width:100%" data-table="PosTable"></table>
-    
+
+
+
+<script>
+    initDataTables();
+    initTableInteractions("PosesTable", "Pos", "Pos");
+</script>

@@ -12,13 +12,7 @@ using System.Threading.Tasks;
 
 namespace Application.Poses.Commands
 {
-    public class EditPosCommand : IRequest<bool>
-    {
-        public EditPosViewModel Data { get; set; }
-    }
-
-
-    public class EditPosCommandHandler : IRequestHandler<EditPosCommand, bool>
+    public class EditPosCommandHandler : IRequestHandler<EditPosViewModel, bool>
     {
         private readonly IAppDbContext _context;
 
@@ -26,9 +20,8 @@ namespace Application.Poses.Commands
         {
             _context = context;
         }
-        public async Task<bool> Handle(EditPosCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(EditPosViewModel updatedPos, CancellationToken cancellationToken)
         {
-            var updatedPos = request.Data;
 
             var toUpdatePos = await _context.Pos.FindAsync(cancellationToken, updatedPos.Id);
 

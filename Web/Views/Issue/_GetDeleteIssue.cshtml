@@ -1,0 +1,154 @@
+﻿@using Application.Issues.ViewModels
+@model IssueDetailsViewModel
+
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+@Scripts.Render("~/bundles/datatables")
+<script src="~/Scripts/Custom/dataTables_setup.js"></script>
+<script src="~/Scripts/Custom/SPA_navigation.js"></script>
+@Scripts.Render("~/bundles/toastr")
+
+<div class="modal-header mb-4">
+    <h3 class="modal-title text-danger" id="staticBackdropLabel">Delete Issue - #@Model.Id and All Logs associated?</h3>
+    <button type="button" class="btn-close" id="btnCancel" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+
+
+<div class="modal-content">
+
+    <div class="modal-header mb-4" style="background-color: lightblue; padding: 0.5rem">
+        <h5 class="modal-title fw-light" id="staticBackdropLabel">Issue Object</h5>
+    </div>
+
+    <div class="mb-4">
+        <table id="AddIssuePosItem"
+               class="display stripe cell-border"
+               style="width:98%" data-table="AddIssuePosItem"></table>
+    </div>
+
+
+    <div class="modal-header mb-2" style="background-color: lightblue; padding: 0.5rem">
+        <h5 class="modal-title fw-light" id="staticBackdropLabel">Issue Details</h5>
+    </div>
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row mb-2">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Type, "Issue Type", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Type, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Subtype, "Subclass", htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Subtype, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Problem, "Problem", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Problem, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Priority, "Priority", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Priority, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger validation-message", data_valmsg_for = "Priority" })
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Status, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                        <div class="input-group">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control rounded", rows = "5", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Solution, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                        <div class="input-group">
+                            @Html.TextAreaFor(model => model.Solution, new { @class = "form-control rounded", rows = "5", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Assigned, "Assigned To", htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                        <div class="input-group">
+                            @Html.TextBoxFor(model => model.Assigned, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                        <div class="input-group">
+                            <span class="input-group-text bg-primary text-white">
+                                <i class="bi bi-info-lg" style="margin-right: unset"></i>
+                            </span>
+                            @Html.TextBoxFor(model => model.Memo, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-header mb-4" style="background-color: lightblue; padding: 0.5rem">
+        <h5 class="modal-title fw-light" id="staticBackdropLabel">Issue logs</h5>
+    </div>
+
+    <div class="mb-4">
+        <div class="m-3" style="width:98%">
+            <table id="IssueLogs"
+                   class="display stripe cell-border"
+                   style="width:100%" data-table="IssueLogs"></table>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        @using (Ajax.BeginForm("DeleteIssue", "Issue", new AjaxOptions
+        {
+            HttpMethod = "POST",
+        }, new { enctype = "multipart/form-data", id = "AddPosForm" }))
+        {
+            @Html.HiddenFor(model => model.Id)
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
+        }
+    </div>
+</div>
+
+<script>
+    var Pos = @Html.Raw(Json.Encode(Model.Pos));
+    var Logs = @Html.Raw(Json.Encode(Model.Logs));
+    var data = {
+        pos: Pos,
+        logs: Logs
+    };
+    initDataTables(data);
+</script>
+

@@ -13,12 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.Commands
 {
-    public class AddUserCommand : IRequest<bool>
-    {
-        public AddUserViewModel Data { get; set; }
-    }
-
-    public class AddUserCommandHandler : IRequestHandler<AddUserCommand, bool>
+    public class AddUserCommandHandler : IRequestHandler<AddUserViewModel, bool>
     {
         private readonly IAppDbContext _context;
 
@@ -26,10 +21,8 @@ namespace Application.Users.Commands
         {
             _context = context;
         }
-        public async Task<bool> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(AddUserViewModel model, CancellationToken cancellationToken)
         {
-            var model = request.Data;
-
             if (model == null) return false;
 
             bool ifExists = _context.Users.Any(x => x.Login == model.Login);
@@ -37,7 +30,7 @@ namespace Application.Users.Commands
 
             if(ifExists || ifExists2) throw new Exception("User Or Email Already Exists");
 
-            var Role = await _context.UserTypes.FirstOrDefaultAsync(x => x.Id == request.Data.UserTypeId);
+            var Role = await _context.UserTypes.FirstOrDefaultAsync(x => x.Id == model.UserTypeId);
 
             var user = new User
             {

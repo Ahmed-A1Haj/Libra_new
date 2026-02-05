@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.SignalR;
 using FluentValidation;
+using Infrastructure;
 using MediatR;
 using Microsoft.Owin.Security;
 using Persistence;
@@ -33,8 +34,8 @@ namespace Web.App_Start
 
             builder.Register(a => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
 
-
-            InfrastructureDependencyInjection.Register(builder);
+            builder.AddInfrastructure();
+            PersistenceDependencyInjection.Register(builder);
             ApplicationDependencyInjection.RegisterApplication(builder);
 
             var container = builder.Build();
