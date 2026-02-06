@@ -26,6 +26,7 @@ namespace Application.Issues.Commands
 
             var issue = new Issue
             {
+                Name = model.Name,
                 Priority = model.Priority,
                 Memo = model.Memo,
                 Description = model.Description,

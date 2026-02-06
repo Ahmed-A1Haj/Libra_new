@@ -1,11 +1,13 @@
 ﻿@using Application.Poses.ViewModels
 @model AddPosViewModel
 
+<div class="modal-header mb-3">
+    <h5 class="modal-title" id="staticBackdropLabel">Create a new Pos</h5>
+</div>
 
 <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Create a new Pos</h5>
-        <button type="button" class="btn-close" id="btnCancel" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-header mb-2" style="background-color: lightblue; padding: 0.5rem">
+        <h5 class="modal-title fw-light" id="staticBackdropLabel">Pos basic Data</h5>
     </div>
     @if (!ViewData.ModelState.IsValid)
     {
@@ -100,7 +102,7 @@
                             @Html.LabelFor(model => model.Modeel, htmlAttributes: new { @class = "control-label fw-bold mb-2" })
                             <div class="input-group">
                                 <span class="input-group-text bg-primary text-white">
-                                    <i class="bi bi-telephone-fill" style="margin-right: unset"></i>
+                                    <i class="bi bi-bag-check-fill" style="margin-right: unset"></i>
                                 </span>
                                 @Html.EditorFor(model => model.Modeel, new { htmlAttributes = new { @class = "form-control rounded" } })
                             </div>
@@ -117,10 +119,14 @@
                         @Html.ValidationMessageFor(model => model.ConnectionTypeId, "", new { @class = "text-danger validation-message", data_valmsg_for = "ConnectionTypeId" })
                     </div>
                 </div>
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Opening hours and holidays</h5>
-                </div>
-                <div class="row mt-2">
+            </div>
+        </div>
+        <div class="modal-header mb-2" style="background-color: lightblue; padding: 0.5rem">
+            <h5 class="modal-title fw-light" id="staticBackdropLabel">Opening hours and holidays</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             @Html.LabelFor(model => model.MorningOpening, "Morning", htmlAttributes: new { @class = "control-label fw-bold mb-2" })
@@ -183,13 +189,13 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer"> 
-            <button type="submit" class="btn btn-primary">
-                Create
-            </button>
-            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Cancel</button>
-        </div>
-    }
+     <div class="modal-footer">
+         <button type="submit" class="btn btn-primary">
+             Create
+         </button>
+         <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Cancel</button>
+     </div>
+     }
 
 
 

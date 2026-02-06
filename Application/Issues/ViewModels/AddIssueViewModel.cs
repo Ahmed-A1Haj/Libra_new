@@ -12,6 +12,7 @@ namespace Application.Issues.ViewModels
     public class AddIssueViewModel : IRequest<bool>
     {
         public int PosId { get; set; }
+        public string Name { get; set; }
         public IEnumerable<PosesGridViewModel> Pos { get; set; }
         public int TypeId { get; set; }
         public int? SubTypeId { get; set; }

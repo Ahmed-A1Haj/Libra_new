@@ -1,13 +1,11 @@
 ﻿using Application.Common.DataTableModels;
-using Application.Extentions;
+using Application.Extensions;
 using Application.Interfaces;
 using Application.Poses.ViewModels;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,11 +29,19 @@ namespace Application.Poses.Queries
         }
         public async Task<IEnumerable<PosesGridViewModel>> Handle(GetAllPosQuery request, CancellationToken cancellationToken)
         {
-            var Poses = new List<PosesGridViewModel>();
 
-            if(request.Name == null)
+            bool hasValue = request.Name != null;
+
+            if (hasValue)
             {
-                Poses = await _context.Pos
+                request.Name = request.Name.Trim();
+                request.Address = request.Address.Trim();
+                request.Telephone = request.Telephone.Trim();
+
+            }
+
+            var Poses = await _context.Pos
+               .Where(x => hasValue ? x.Name.Contains(request.Name) && x.Address.Contains(request.Address) && x.Telephone.Contains(request.Telephone) : true)
                .Include(x => x.Issues)
                .Include(x => x.City)
                .Select(pos => new PosesGridViewModel
@@ -52,29 +58,7 @@ namespace Application.Poses.Queries
                .OrderBy(request.DataTablesParameters)
                .Page(request.DataTablesParameters)
                .ToListAsync(cancellationToken);
-            }
-            else
-            {
-                Poses = await _context.Pos
-                   .Where(x => x.Name.Contains(request.Name) && x.Address.Contains(request.Address) && x.Telephone.Contains(request.Telephone))
-                   .Include(x => x.Issues)
-                   .Include(x => x.City)
-                   .Select(pos => new PosesGridViewModel
-                   {
-                       Id = pos.Id,
-                       Name = pos.Name,
-                       Address = pos.Address,
-                       City = pos.City.CityName,
-                       Telephone = pos.Telephone,
-                       IssueCount = pos.Issues.Count(),
-                   })
-                   .AsQueryable()
-                   .Search(request.DataTablesParameters)
-                   .OrderBy(request.DataTablesParameters)
-                   .Page(request.DataTablesParameters)
-                   .ToListAsync(cancellationToken);
 
-            }
             return Poses;
         }
     }

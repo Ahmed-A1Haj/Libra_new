@@ -7,7 +7,7 @@
         const configFactory = tableList[key];
 
         if (!configFactory) return;
-
+        
         const config = configFactory(data);
 
         myTable = $(this).DataTable(config);
@@ -18,7 +18,7 @@ function initTableInteractions (tableId, controller, entity) {
 
     let selectedUser = null;
 
-    const table = $(`#${tableId}`).DataTable();
+    const table = myTable;
 
     $(`#edit${entity}Btn`).prop('disabled', !selectedUser);
     $(`#${entity}DetailsBtn`).prop('disabled', !selectedUser);

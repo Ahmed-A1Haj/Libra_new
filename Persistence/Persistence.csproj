@@ -90,6 +90,10 @@
     <Compile Include="Configuration\PosConfiguration.cs" />
     <Compile Include="Configuration\UserConfiguration.cs" />
     <Compile Include="Configuration\UserTypeConfiguration.cs" />
+    <Compile Include="Migrations\202602061228537_AddIssueName.cs" />
+    <Compile Include="Migrations\202602061228537_AddIssueName.Designer.cs">
+      <DependentUpon>202602061228537_AddIssueName.cs</DependentUpon>
+    </Compile>
     <Compile Include="PersistenceDependencyInjection.cs" />
     <Compile Include="Migrations\202601131412183_initialMigrate.cs" />
     <Compile Include="Migrations\202601131412183_initialMigrate.Designer.cs">
@@ -132,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202601220854482_EditConfiguration.resx">
       <DependentUpon>202601220854482_EditConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602061228537_AddIssueName.resx">
+      <DependentUpon>202602061228537_AddIssueName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

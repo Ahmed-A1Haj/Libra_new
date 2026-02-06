@@ -14,6 +14,10 @@ namespace Persistence.Configuration
         {
             HasKey(x => x.Id);
 
+            Property(x => x.Name).HasMaxLength(20).IsRequired();
+
+            HasIndex(x => x.Name).IsUnique();
+
             Property(x => x.Priority).HasMaxLength(10).IsRequired();
 
             Property(x => x.Memo).HasMaxLength(128).IsOptional();

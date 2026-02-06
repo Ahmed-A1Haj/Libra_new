@@ -28,31 +28,26 @@ namespace Web.Controllers
             _EditIssueValidator = editIssueValidator;
         }
         // GET: Issue
-        public ActionResult Index(string search)
+        public ActionResult Index()
         {
-            if(search != null)
-            {
-                ViewBag.search = search;
-                return View("_GetIssuesByStatus");
-            }
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetIssues(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters,string extrasearch)
+        public async Task<ActionResult> GetIssues(DataTablesParameters dataTablesParameters,string extrasearch, int? posId, CancellationToken cancellationToken)
         {
+            
             try
             {
-                var issues = await _mediator.Send(new GetIssuesGridQuery() { DataTablesParameters = dataTablesParameters, status = extrasearch }, cancellationToken);
-                
+                var issues = await _mediator.Send(new GetIssuesGridQuery() { DataTablesParameters = dataTablesParameters, status = extrasearch, posId = posId }, cancellationToken);
 
-                return Json(
-                        new DataTableJsonResponse<IssueGridViewModel>
+                return  Json(
+                        new 
                         {
-                            Draw = dataTablesParameters.Draw,
-                            RecordsTotal = dataTablesParameters.TotalCount,
-                            RecordsFiltered = dataTablesParameters.TotalCount,
-                            Data = issues
+                            draw = dataTablesParameters.Draw,
+                            recordsTotal = dataTablesParameters.TotalCount,
+                            recordsFiltered = dataTablesParameters.TotalCount,
+                            data = issues
                         },
                         JsonRequestBehavior.AllowGet);
             }

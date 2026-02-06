@@ -55,14 +55,13 @@ namespace Libra.Controllers
                 }, cancellationToken);
 
                 return Json(
-                        new DataTableJsonResponse<PosesGridViewModel>
+                        new
                         {
-                            Draw = dataTablesParameters.Draw,
-                            RecordsTotal = dataTablesParameters.TotalCount,
-                            RecordsFiltered = dataTablesParameters.TotalCount,
-                            Data = Poses
-                        },
-                        JsonRequestBehavior.AllowGet);
+                            draw = dataTablesParameters.Draw,
+                            recordsTotal = dataTablesParameters.TotalCount,
+                            recordsFiltered = dataTablesParameters.TotalCount,
+                            data = Poses
+                        });
             }
             catch (Exception ex)
             {

@@ -13,6 +13,7 @@ namespace Application.Issues.ViewModels
     {
         public int Id { get; set; }
         public int PosId { get; set; }
+        public string Name { get; set; }
         public List<PosesGridViewModel> Pos { get; set; }
         public int TypeId { get; set; }
         public int? SubTypeId { get; set; }

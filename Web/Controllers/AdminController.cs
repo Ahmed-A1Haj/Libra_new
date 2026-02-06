@@ -45,12 +45,12 @@ namespace Web.Controllers
 
                 return 
                     Json(
-                        new DataTableJsonResponse<UsersGridViewModel> 
+                        new 
                         { 
-                            Draw = dataTablesParameters.Draw, 
-                            RecordsTotal = dataTablesParameters.TotalCount, 
-                            RecordsFiltered = dataTablesParameters.TotalCount,
-                            Data = users 
+                            draw = dataTablesParameters.Draw, 
+                            recordsTotal = dataTablesParameters.TotalCount, 
+                            recordsFiltered = dataTablesParameters.TotalCount,
+                            data = users 
                         }, 
                         JsonRequestBehavior.AllowGet);
             }
