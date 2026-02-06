@@ -80,9 +80,19 @@
         }
     }),
     IssueByPosIdTable: (data) => ({
-        data: data,
+        ajax: {
+            url: '/Issue/GetIssues',
+            type: 'POST',
+            "dataType": "json",
+            data: function (d) {
+                d.posId = data;
+            },
+        },
+        processing: true,
+        serverSide: true,
         columns: [
-            { data: 'Id', title: "Issue#" },
+            { data: 'Id', visible: false },
+            { data: 'Name', title: 'Name'},
             { data: 'PosName', title: 'Pos Name' },
             { data: 'CreatedBy', title: 'Created By' },
             { data: 'Date', title: 'Date' },
@@ -114,27 +124,28 @@
             }
         }
     }),
-    IssuesTable: (s) => ({
+    IssuesTable: () => ({
         ajax: {
             url: '/Issue/GetIssues',
             type: 'POST',
             /*dataSrc: 'Data',*/
             "dataType": "json",
             data: function (d) {
-                d.extrasearch = s;
+                d.extrasearch = stat;
             },
         },
         processing: true,
         serverSide: true,
         "dataType": "json",
         columns: [
-            { data: 'Id', title: "Issue#" , name: 'userName' },
-            { data: 'PosName', title: 'Pos Name', name: 'userName2' },
-            { data: 'CreatedBy', title: 'Created By', name: 'userName3' },
-            { data: 'Date', title: 'Date', name: 'userName4' },
-            { data: 'IssueType', title: 'Issue Type', name: 'userName5' },
-            { data: 'AssignedTo', title: 'Assigned To', name: 'userName6' },
-            { data: 'Memo', title: 'Memo', name: 'userName7' }
+            { data: 'Id', visible: false },
+            { data: 'Name', title: 'Name' },
+            { data: 'PosName', title: 'Pos Name'},
+            { data: 'CreatedBy', title: 'Created By'},
+            { data: 'Date', title: 'Date'},
+            { data: 'IssueType', title: 'Issue Type'},
+            { data: 'AssignedTo', title: 'Assigned To'},
+            { data: 'Memo', title: 'Memo'}
         ],
         columnDefs: [
             {

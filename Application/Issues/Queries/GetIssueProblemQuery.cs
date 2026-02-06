@@ -26,6 +26,7 @@ namespace Application.Issues.Queries
         public async Task<IEnumerable<IssueTypeViewModel>> Handle(GetIssueProblemQuery request, CancellationToken cancellationToken)
         {
             return await _context.IssueTypes
+                .Include(x=>x.Issues)
                 .Where(x => x.ParentIssueId == request.Id && x.IssueLevel == 3)
                 .Select(subtype => new IssueTypeViewModel
                 {

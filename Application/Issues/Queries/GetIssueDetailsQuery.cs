@@ -39,6 +39,7 @@ namespace Application.Issues.Queries
                 .Select(issue => new IssueDetailsViewModel
                 {
                     Id = issue.Id,
+                    Name = issue.Name,
                     Pos = new List<PosesGridViewModel>()
                     {
                         new PosesGridViewModel()

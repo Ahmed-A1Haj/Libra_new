@@ -189,12 +189,8 @@
 
 <script>
     // Render your list into JS
-    var data = @Html.Raw(Json.Encode(Model.Issues));
+    var data = @Html.Raw(Json.Encode(Model.Id));
     initDataTables(data);
 
-
-    @*$('#btnCancel').on('click', function () {
-        loadPage('@Url.Action("Index")');
-    });*@
 </script>
 

@@ -9,6 +9,7 @@ namespace Application.Issues.ViewModels
     public class IssueGridViewModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string PosName { get; set; }
         public string CreatedBy { get; set; }
         public string Date { get; set; }

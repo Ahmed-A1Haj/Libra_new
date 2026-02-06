@@ -13,7 +13,7 @@
 <script src="~/Scripts/Custom/SPA_navigation.js"></script>
 @Scripts.Render("~/bundles/toastr")
 
-<div class="cards mb-5">
+<div class="cards mb-2">
 
     <div class="card new">
         <div class="card-body">
@@ -23,10 +23,10 @@
                 <span>New Issues</span>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Issue", new { search = "New" })" class="card-footer" data-spa>
+        <button id="new" class="card-footer" onclick="reloadTable('New')">
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
-        </a>
+        </button>
     </div>
 
     <div class="card pending">
@@ -37,10 +37,10 @@
                 <span>Pending</span>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Issue", new { search = "Pending" })" class="card-footer" data-spa>
+        <button id="pending" class="card-footer" onclick="reloadTable('Pending')">
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
-        </a>
+        </button>
     </div>
 
     <div class="card assigned">
@@ -51,10 +51,10 @@
                 <span>Assigned</span>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Issue", new { search = "Processing (assigned)" })" class="card-footer" data-spa>
+        <button id="assigned" class="card-footer" onclick="reloadTable('Processing (assigned)')">
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
-        </a>
+        </button>
     </div>
 
     <div class="card progresss">
@@ -65,12 +65,15 @@
                 <span>Solved</span>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Issue", new { search = "Solved" })" class="card-footer" data-spa>
+        <button id="solved" class="card-footer" onclick="reloadTable('Solved')">
             <span>View details</span>
             <i class="bi bi-arrow-right-circle-fill"></i>
-        </a>
+        </button>
     </div>
 
+</div>
+<div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-secondary" id="ClearFilters" onclick="clearFilters()" disabled>Clear Filters</button>
 </div>
 
 <table id="IssuesTable"
@@ -79,6 +82,25 @@
 
 
 <script>
+    var stat = "";
+
     initDataTables();
     initTableInteractions("IssuesTable", "Issue", "Issue");
+
+    
+
+    function reloadTable(text) {
+        stat = text;
+        myTable.ajax.reload();
+    }
+
+    $('#new, #pending, #assigned, #solved').on('click', function () {
+        $('#ClearFilters').prop('disabled', false);
+    });
+
+    function clearFilters() {
+        stat = "";
+        $('#ClearFilters').prop('disabled', true);
+        myTable.ajax.reload();
+    }
 </script>
