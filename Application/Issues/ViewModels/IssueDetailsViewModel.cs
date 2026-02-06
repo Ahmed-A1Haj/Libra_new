@@ -10,6 +10,7 @@ namespace Application.Issues.ViewModels
     public class IssueDetailsViewModel
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public List<PosesGridViewModel> Pos { get; set; }
         public string Type { get; set; }
         public string Subtype { get; set; }

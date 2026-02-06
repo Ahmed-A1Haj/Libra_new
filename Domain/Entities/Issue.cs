@@ -9,6 +9,7 @@ namespace Domain.Entities
 {
     public class Issue : AuditableEntityId
     {
+        public string Name { get; set; }
         public string Priority { get; set; }
         public string Memo { get; set; }
         public string Description { get; set; }

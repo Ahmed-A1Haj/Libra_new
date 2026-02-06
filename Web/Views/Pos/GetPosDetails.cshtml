@@ -3,9 +3,9 @@
 
 
 @Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/bootstrap.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/bootstrap.bundle.js"></script>
 @Scripts.Render("~/bundles/datatables")
+<script src="~/Scripts/dataTables.bootstrap5.js"></script>
 <script src="~/Scripts/Custom/dataTables_setup.js"></script>
 <script src="~/Scripts/Custom/SPA_navigation.js"></script>
 @Scripts.Render("~/bundles/toastr")
@@ -94,7 +94,7 @@
                         @Html.LabelFor(model => model.Modeel, htmlAttributes: new { @class = "control-label fw-bold mb-2" })
                         <div class="input-group">
                             <span class="input-group-text bg-primary text-white">
-                                <i class="bi bi-telephone-fill" style="margin-right: unset"></i>
+                                <i class="bi bi-bag-check-fill" style="margin-right: unset"></i>
                             </span>
                             @Html.EditorFor(model => model.Modeel, new { htmlAttributes = new { @class = "form-control rounded", @readonly = "readonly" } })
                         </div>
@@ -177,7 +177,7 @@
                    style="width:100%" data-table="IssueByPosIdTable"></table>
         </div>
     </div>
-    
+
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
@@ -189,12 +189,8 @@
 
 <script>
     // Render your list into JS
-    var data = @Html.Raw(Json.Encode(Model.Issues));
+    var data = @Html.Raw(Json.Encode(Model.Id));
     initDataTables(data);
 
-
-    @*$('#btnCancel').on('click', function () {
-        loadPage('@Url.Action("Index")');
-    });*@
 </script>
 

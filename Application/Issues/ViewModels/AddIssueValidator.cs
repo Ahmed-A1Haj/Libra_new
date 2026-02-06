@@ -14,6 +14,10 @@ namespace Application.Issues.ViewModels
             RuleFor(x => x.TypeId)
                 .NotEmpty().NotNull();
 
+            RuleFor(x => x.Name)
+                .NotEmpty().NotNull()
+                .Matches("^[A-Za-z0-9]{5,20}$").WithMessage("Name can only contain letters and numbers");
+
             RuleFor(x => x.Priority)
                 .NotEmpty().NotNull();
 

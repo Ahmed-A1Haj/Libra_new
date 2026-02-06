@@ -2,9 +2,9 @@
 @model IssueDetailsViewModel
 
 @Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/bootstrap.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/bootstrap.bundle.js"></script>
 @Scripts.Render("~/bundles/datatables")
+<script src="~/Scripts/dataTables.bootstrap5.js"></script>
 <script src="~/Scripts/Custom/dataTables_setup.js"></script>
 <script src="~/Scripts/Custom/SPA_navigation.js"></script>
 @Scripts.Render("~/bundles/toastr")
@@ -34,6 +34,19 @@
     </div>
     <div class="modal-body">
         <div class="form-horizontal">
+            <div class="row mb-2">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label fw-bold required mb-2" })
+                        <div class="input-group">
+                            <span class="input-group-text bg-primary text-white">
+                                <i class="bi bi-hash" style="margin-right: unset"></i>
+                            </span>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control rounded", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mb-2">
                 <div class="col-md-2">
                     <div class="form-group">

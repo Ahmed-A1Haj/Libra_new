@@ -1,5 +1,5 @@
 ﻿using Application.Common.DataTableModels;
-using Application.Extentions;
+using Application.Extensions;
 using Application.Interfaces;
 using Application.Users.ViewModels;
 using Domain.Entities;

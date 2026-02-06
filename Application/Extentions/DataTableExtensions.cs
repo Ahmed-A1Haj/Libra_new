@@ -1,11 +1,10 @@
 ﻿using Application.Common.DataTableModels;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Application.Extentions
+namespace Application.Extensions
 {
     public static class DataTableExtensions
     {
@@ -87,111 +86,6 @@ namespace Application.Extentions
             return query;
         }
 
-        public static IQueryable<T> SearchByColumnFilter<T>(this IQueryable<T> source, DataTablesParameters parameters)
-        {
-            IEnumerable<string> columnNames = parameters.Columns.Where(x => x.Searchable).Select(x => x.Data);
-            IEnumerable<string> columnsSearhValues = parameters.Columns.Where(x => x.Searchable).Select(x => x.Search.Value);
-            List<string> columnsSearhValuesNotNull = new List<string>();
-            foreach (var columnsSearchValue in columnsSearhValues)
-            {
-                if (!string.IsNullOrWhiteSpace(columnsSearchValue))
-                {
-                    columnsSearhValuesNotNull.Add(columnsSearchValue);
-                }
-            }
-            if (!columnsSearhValuesNotNull.Any())
-            {
-                return source;
-            }
-
-            ParameterExpression parameterExpression = Expression.Parameter(typeof(T), "x");
-            Expression predicateBuilder = Expression.Constant(true);
-
-            foreach (string columnName in columnNames)
-            {
-                string searchValue = parameters.Columns
-                    .Where(x => x.Data == columnName).Select(x => x.Search.Value).FirstOrDefault();
-                if (searchValue == null)
-                {
-                    continue;
-                }
-
-                // (x.Member)
-                MemberExpression memberExpression = Expression.Property(parameterExpression, columnName);
-
-                if (memberExpression.Type != typeof(string) && memberExpression.Type != typeof(Guid) && memberExpression.Type != typeof(DateTime))
-                {
-                    continue;
-                }
-
-                Expression equalsMemberExpression;
-
-                var checkForGuid = Guid.TryParseExact(searchValue, "D", out Guid result);
-               
-                var checkForDateTime = DateTime.TryParseExact(searchValue, "dd'.'MM'.'yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime resultDateTime);
-                if (checkForGuid)
-                {
-                    ConstantExpression specifiedColumnSearchValueExpression = Expression.Constant(result);
-                    // (x.Member.Equals(specifiedColumnSearchValueExpression as a Guid))
-                    equalsMemberExpression = Expression.Call(
-                        memberExpression,
-                        typeof(Guid).GetMethod(nameof(Guid.Equals), new[] { typeof(Guid) }),
-                        specifiedColumnSearchValueExpression);
-                    predicateBuilder = Expression.AndAlso(predicateBuilder, equalsMemberExpression);
-                }
-                else if (checkForDateTime)
-                {
-                    ConstantExpression specifiedColumnSearchValueExpression = Expression.Constant(resultDateTime);
-                    // (x.Member.Equals(specifiedColumnSearchValueExpression as a DateTime))
-                    equalsMemberExpression = Expression.Call(
-                        memberExpression,
-                        typeof(DateTime).GetMethod(nameof(DateTime.Equals), new[] { typeof(DateTime) }),
-                        specifiedColumnSearchValueExpression);
-                    predicateBuilder = Expression.AndAlso(predicateBuilder, equalsMemberExpression);
-                }
-                else
-                {
-                    ConstantExpression specifiedColumnSearchValueExpression = Expression.Constant(searchValue);
-                    // (x => x.Member.ToUpper())
-                    Expression caseInsentitiveMemberExpression = Expression.Call(
-                        memberExpression,
-                        typeof(string).GetMethod(nameof(String.ToUpper), Type.EmptyTypes));
-
-                    if(columnName == "programName")
-                    {
-                        // (x => x.Member.ToUpper().StartsWith(specifiedColumnSearchValueExpression as a string)) only for ProgramCodes
-                        equalsMemberExpression = Expression.Call(
-                            caseInsentitiveMemberExpression,
-                            typeof(string).GetMethod(nameof(String.StartsWith), new[] { typeof(string) }),
-                            specifiedColumnSearchValueExpression);
-                        predicateBuilder = Expression.AndAlso(predicateBuilder, equalsMemberExpression);
-                    }
-                    else
-                    {
-                        // (x => x.Member.ToUpper().Contains(specifiedColumnSearchValueExpression as a string))
-                        equalsMemberExpression = Expression.Call(
-                            caseInsentitiveMemberExpression,
-                            typeof(string).GetMethod(nameof(String.Contains), new[] { typeof(string) }),
-                            specifiedColumnSearchValueExpression);
-                        predicateBuilder = Expression.AndAlso(predicateBuilder, equalsMemberExpression);
-                    }
-                }
-            }
-
-            LambdaExpression lambdaExpression = Expression.Lambda(predicateBuilder, parameterExpression);
-
-            Expression expression = source.Expression;
-            expression = Expression.Call(
-                typeof(Queryable),
-                nameof(Queryable.Where),
-                new Type[] { source.ElementType },
-                expression,
-                Expression.Quote(lambdaExpression));
-
-            IQueryable<T> query = source.Provider.CreateQuery<T>(expression);
-            return query;
-        }
-
         public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> source, bool condition, Func<TSource, bool> predicate)
         {
             if (condition)
@@ -222,20 +116,17 @@ namespace Application.Extentions
                 : source;
         }
 
-        public static IEnumerable<TSource> WhereIfElse<TSource>(this IEnumerable<TSource> source, bool condition, Func<TSource, bool> truePredicate, Func<TSource, bool> falsePredicate)
+        static IEnumerable<TSource> DistinctByImpl<TSource, TKey>(IEnumerable<TSource> source,
+              Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
-            if (condition)
-                return source.Where(truePredicate);
-            else
-                return source.Where(falsePredicate);
-        }
-
-        public static IEnumerable<TSource> WhereIfElse<TSource>(this IEnumerable<TSource> source, bool condition, Func<TSource, int, bool> truePredicate, Func<TSource, int, bool> falsePredicate)
-        {
-            if (condition)
-                return source.Where(truePredicate);
-            else
-                return source.Where(falsePredicate);
+            HashSet<TKey> knownKeys = new HashSet<TKey>(comparer);
+            foreach (TSource element in source)
+            {
+                if (knownKeys.Add(keySelector(element)))
+                {
+                    yield return element;
+                }
+            }
         }
     }
 }

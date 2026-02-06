@@ -1,5 +1,5 @@
 ﻿using Application.Common.DataTableModels;
-using Application.Extentions;
+using Application.Extensions;
 using Application.Interfaces;
 using Application.Issues.ViewModels;
 using Domain.Entities;
@@ -19,6 +19,7 @@ namespace Application.Issues.Queries
     {
         public DataTablesParameters DataTablesParameters { get; set; }
         public string status { get; set; }
+        public int? posId { get; set; }
     }
 
     public class GetIssuesGridQueryHandler : IRequestHandler<GetIssuesGridQuery, IEnumerable<IssueGridViewModel>>
@@ -31,11 +32,30 @@ namespace Application.Issues.Queries
         public async Task<IEnumerable<IssueGridViewModel>> Handle(GetIssuesGridQuery request, CancellationToken cancellationToken)
         {
             List<IssueGridViewModel> issues = new List<IssueGridViewModel>();
-            if (request.status != null)
+            if (request.posId != null)
             {
-                issues = await _context.Issues.Where(x => x.Status.Status == request.status).Select(issue => new IssueGridViewModel
+                issues = await _context.Issues.Where(x => x.PosId == request.posId).Select(issue => new IssueGridViewModel
                 {
                     Id = issue.Id,
+                    Name = issue.Name,
+                    PosName = issue.Pos.Name,
+                    CreatedBy = issue.CreatedBy.Name,
+                    Date = issue.Created.ToString(),
+                    IssueType = issue.Type.Name,
+                    Status = issue.Status.Status,
+                    AssignedTo = issue.Assigned.Type,
+                    Memo = issue.Memo
+                }).AsQueryable().Search(request.DataTablesParameters)
+                .OrderBy(request.DataTablesParameters)
+                .Page(request.DataTablesParameters)
+                .ToListAsync(cancellationToken);
+            }
+            else if (request.status != null)
+            {
+                issues = await _context.Issues.Where(x => x.Status.Status.Contains(request.status)).Select(issue => new IssueGridViewModel
+                {
+                    Id = issue.Id,
+                    Name = issue.Name,
                     PosName = issue.Pos.Name,
                     CreatedBy = issue.CreatedBy.Name,
                     Date = issue.Created.ToString(),
@@ -53,6 +73,7 @@ namespace Application.Issues.Queries
                 issues = await _context.Issues.Select(issue => new IssueGridViewModel
                 {
                     Id = issue.Id,
+                    Name = issue.Name,
                     PosName = issue.Pos.Name,
                     CreatedBy = issue.CreatedBy.Name,
                     Date = issue.Created.ToString(),
