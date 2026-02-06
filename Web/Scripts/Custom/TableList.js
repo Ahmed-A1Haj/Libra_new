@@ -2,8 +2,7 @@
     usersTable: () => ({
         ajax: {
             url: '/Admin/GetUsers',
-            type: 'POST',
-            dataSrc: "Data"
+            type: 'POST'
         },
         processing: true,
         serverSide: true,
@@ -15,6 +14,12 @@
             { data: 'Login', title: 'Login' },
             { data: 'Telephone', title: 'Telephone' },
             { data: 'UserRole', title: 'UserRole' }
+        ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
         ],
         language: {
             search: "Filter records:", // Custom search placeholder
@@ -38,7 +43,6 @@
         ajax: {
             url: '/Pos/GetPoses',
             type: 'POST',
-            dataSrc: 'Data'
         },
         processing: true,
         serverSide: true,
@@ -50,6 +54,12 @@
             { data: 'Address', title: 'Address' },
             { data: 'City', title: 'City' },
             { data: 'IssueCount', title: 'Status' }
+        ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
         ],
         language: {
             search: "Filter records:", // Custom search placeholder
@@ -80,10 +90,16 @@
             { data: 'AssignedTo', title: 'Assigned To' },
             { data: 'Memo', title: 'Memo' }
         ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
+        ],
         language: {
             search: "Filter records:", // Custom search placeholder
             lengthMenu: "Show _MENU_ entries",
-            info: "Showing _START_ to _END_ of _TOTAL_ Positions",
+            info: "Showing _START_ to _END_ of _TOTAL_ Issues",
             paginate: {
                 firstLast: false,
                 previous: "Prev",
@@ -102,27 +118,37 @@
         ajax: {
             url: '/Issue/GetIssues',
             type: 'POST',
+            /*dataSrc: 'Data',*/
+            "dataType": "json",
             data: function (d) {
                 d.extrasearch = s;
             },
-            dataSrc: 'Data'
         },
         processing: true,
         serverSide: true,
         "dataType": "json",
         columns: [
-            { data: 'Id', title: "Issue#" },
-            { data: 'PosName', title: 'Pos Name' },
-            { data: 'CreatedBy', title: 'Created By' },
-            { data: 'Date', title: 'Date' },
-            { data: 'IssueType', title: 'Issue Type' },
-            { data: 'AssignedTo', title: 'Assigned To' },
-            { data: 'Memo', title: 'Memo' }
+            { data: 'Id', title: "Issue#" , name: 'userName' },
+            { data: 'PosName', title: 'Pos Name', name: 'userName2' },
+            { data: 'CreatedBy', title: 'Created By', name: 'userName3' },
+            { data: 'Date', title: 'Date', name: 'userName4' },
+            { data: 'IssueType', title: 'Issue Type', name: 'userName5' },
+            { data: 'AssignedTo', title: 'Assigned To', name: 'userName6' },
+            { data: 'Memo', title: 'Memo', name: 'userName7' }
+        ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
+        ],
+        order: [
+            [5, 'asc'],
         ],
         language: {
             search: "Filter records:", // Custom search placeholder
             lengthMenu: "Show _MENU_ entries",
-            info: "Showing _START_ to _END_ of _TOTAL_ Positions",
+            info: "Showing _START_ to _END_ of _TOTAL_ Issues",
             paginate: {
                 firstLast: false,
                 previous: "Prev",
@@ -146,7 +172,6 @@
                 d.posTelephone = posTelephone;
                 d.posAddress = posAddress;
             },
-            dataSrc: 'Data'
         },
         dom: 'lrtip',
         processing: true,
@@ -158,6 +183,12 @@
             { data: 'Telephone', title: 'Telephone' },
             { data: 'Address', title: 'Address' },
             { data: 'City', title: 'City' }
+        ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
         ],
         language: {
             lengthMenu: "Show _MENU_ entries",
@@ -186,7 +217,13 @@
             { data: 'Address', title: 'Address' },
             { data: 'City', title: 'City' },
             { data: 'IssueCount', visible: false}
-        ]
+        ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
+        ],
     }),
     IssueLogs: (data) => ({
         data: data.logs,
@@ -196,6 +233,12 @@
             { data: 'Action', title: 'Action' },
             { data: 'User', title: 'User' },
             { data: 'Notes', title: 'Notes' }
+        ],
+        columnDefs: [
+            {
+                targets: '_all',
+                orderSequence: ['asc', 'desc']
+            }
         ],
         language: {
             lengthMenu: "Show _MENU_ entries",

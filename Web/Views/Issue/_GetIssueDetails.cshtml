@@ -2,9 +2,9 @@
 @model IssueDetailsViewModel
 
 @Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/bootstrap.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/bootstrap.bundle.js"></script>
 @Scripts.Render("~/bundles/datatables")
+<script src="~/Scripts/dataTables.bootstrap5.js"></script>
 <script src="~/Scripts/Custom/dataTables_setup.js"></script>
 <script src="~/Scripts/Custom/SPA_navigation.js"></script>
 @Scripts.Render("~/bundles/toastr")
@@ -129,10 +129,10 @@
         </div>
     </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
-        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btnCancel" data-bs-dismiss="modal">Back</button>
     </div>
+</div>
 
 <script>
     var Pos = @Html.Raw(Json.Encode(Model.Pos));

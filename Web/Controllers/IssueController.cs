@@ -39,22 +39,31 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetIssues(CancellationToken cancellationToken, DataTablesParameters dataTablesParameters,string extrasearch)
+        public async Task<ActionResult> GetIssues(DataTablesParameters dataTablesParameters,string extrasearch, CancellationToken cancellationToken)
         {
+            
             try
             {
                 var issues = await _mediator.Send(new GetIssuesGridQuery() { DataTablesParameters = dataTablesParameters, status = extrasearch }, cancellationToken);
-                
 
-                return Json(
-                        new DataTableJsonResponse<IssueGridViewModel>
+                return  Json(
+                        new 
                         {
-                            Draw = dataTablesParameters.Draw,
-                            RecordsTotal = dataTablesParameters.TotalCount,
-                            RecordsFiltered = dataTablesParameters.TotalCount,
-                            Data = issues
+                            draw = dataTablesParameters.Draw,
+                            recordsTotal = dataTablesParameters.TotalCount,
+                            recordsFiltered = dataTablesParameters.TotalCount,
+                            data = issues
                         },
                         JsonRequestBehavior.AllowGet);
+                //return Json(
+                //        new DataTableJsonResponse<IssueGridViewModel>
+                //        {
+                //            Draw = dataTablesParameters.Draw,
+                //            RecordsTotal = dataTablesParameters.TotalCount,
+                //            RecordsFiltered = dataTablesParameters.TotalCount,
+                //            Data = issues
+                //        },
+                //        JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

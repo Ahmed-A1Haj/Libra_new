@@ -1,5 +1,5 @@
 ﻿using Application.Common.DataTableModels;
-using Application.Extentions;
+using Application.Extensions;
 using Application.Interfaces;
 using Application.Poses.ViewModels;
 using MediatR;
@@ -31,6 +31,7 @@ namespace Application.Poses.Queries
         }
         public async Task<IEnumerable<PosesGridViewModel>> Handle(GetAllPosQuery request, CancellationToken cancellationToken)
         {
+
             var Poses = new List<PosesGridViewModel>();
 
             if(request.Name == null)
@@ -56,7 +57,7 @@ namespace Application.Poses.Queries
             else
             {
                 Poses = await _context.Pos
-                   .Where(x => x.Name.Contains(request.Name) && x.Address.Contains(request.Address) && x.Telephone.Contains(request.Telephone))
+                   .Where(x => x.Name.Contains(request.Name.Trim()) && x.Address.Contains(request.Address.Trim()) && x.Telephone.Contains(request.Telephone.Trim()))
                    .Include(x => x.Issues)
                    .Include(x => x.City)
                    .Select(pos => new PosesGridViewModel
