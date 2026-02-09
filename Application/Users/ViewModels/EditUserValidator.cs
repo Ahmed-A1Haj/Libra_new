@@ -44,7 +44,7 @@ namespace Application.Users.ViewModels
                 .NotEmpty().NotNull().WithMessage("This Field is Required")
                 .MaximumLength(50).WithMessage("Password can have maximum 50 characters")
                 .Must(BeValidPassword).WithMessage("Password must contain at least 8 characters, a letter and a special Character")
-                .When(x => !string.IsNullOrEmpty(x.OldPassword))
+                .When(x => x.ChangePassword)
                 .WithName("NewPassword");
 
             RuleFor(x => x.ConfirmPassword)

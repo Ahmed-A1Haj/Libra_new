@@ -33,12 +33,10 @@
                 </div>
                 <div class="form-group row mb-2 px-4">
                     <div class="col-6 col-md-4">
-                        @Html.LabelFor(model => model.OldPassword, "OldPassword", htmlAttributes: new { @class = "control-label" })
+                        @Html.LabelFor(model => model.ChangePassword, "OldPassword", htmlAttributes: new { @class = "control-label" })
                     </div>
-                    <div class="col-12 col-md-8">
-                        @Html.PasswordFor(model => model.OldPassword, htmlAttributes: new { @class = "form-control " })
-                        <small>Keep Empty if you dont want to change the password</small>
-                        @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger validation-message", data_valmsg_for = "OldPassword" })
+                    <div class="col-12 col-md-8 form-check form-switch" style="padding-left: 3.3rem">
+                        @Html.CheckBoxFor(model => model.ChangePassword, htmlAttributes: new { @class = "form-check-input", @id = "changePassword", @onChange = "toggleText()" })
                     </div>
                 </div>
                 <div class="form-group row mb-2 px-4">
@@ -46,7 +44,7 @@
                         @Html.LabelFor(model => model.NewPassword, "New Password", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-12 col-md-8">
-                        @Html.PasswordFor(model => model.NewPassword, htmlAttributes: new { @class = "form-control " })
+                        @Html.PasswordFor(model => model.NewPassword, htmlAttributes: new { @class = "form-control ", @id = "pass" , @disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger validation-message", data_valmsg_for = "NewPassword" })
                     </div>
                 </div>
@@ -55,7 +53,7 @@
                         @Html.LabelFor(model => model.ConfirmPassword, "Confirm New Password", htmlAttributes: new { @class = "control-label" })
                     </div>
                     <div class="col-12 col-md-8">
-                        @Html.PasswordFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "form-control " })
+                        @Html.PasswordFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "form-control ", @id = "confirmPass", @disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger validation-message", data_valmsg_for = "ConfirmPassword" })
                     </div>
                 </div>
