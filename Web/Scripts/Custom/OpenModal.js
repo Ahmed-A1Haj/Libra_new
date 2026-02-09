@@ -69,3 +69,19 @@ function closeModal() {
     $("#modal").modal('hide');
     myTable.ajax.reload();
 };
+
+function toggleText() {
+    var isOn = $("#changePassword").is(":checked");
+    if (isOn) {
+        $("#pass").prop("disabled", !isOn);
+        $("#confirmPass").prop("disabled", !isOn);
+    }
+    else {
+        $("#pass").val("");
+        $("#confirmPass").val("");
+
+        $("#pass").prop("disabled", !isOn);
+        $("#confirmPass").prop("disabled", !isOn);
+    }
+
+}

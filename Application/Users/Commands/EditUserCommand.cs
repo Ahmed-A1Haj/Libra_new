@@ -33,7 +33,7 @@ namespace Application.Users.Commands
             toUpdateUser.Email = updatedUser.Email;
             toUpdateUser.UserTypeId = updatedUser.UserTypeId;
 
-            if (updatedUser.NewPassword != null && checkPassword(updatedUser.OldPassword, toUpdateUser.PasswordHash))
+            if (updatedUser.NewPassword != null && updatedUser.ChangePassword)
             {
                 toUpdateUser.PasswordHash = setPassword(updatedUser.NewPassword);
             }
