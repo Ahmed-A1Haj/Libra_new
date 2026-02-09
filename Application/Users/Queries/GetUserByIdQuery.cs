@@ -34,7 +34,6 @@ namespace Application.Users.Queries
             {
                 Id = user.Id,
                 Login = user.Login,
-                OldPassword = user.PasswordHash,
                 Name = user.Name,
                 Email = user.Email,
                 Telephone = user.Telephone,
