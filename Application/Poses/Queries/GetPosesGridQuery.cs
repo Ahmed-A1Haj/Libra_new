@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Poses.Queries
 {
-    public class GetAllPosQuery : IRequest<IEnumerable<PosesGridViewModel>>
+    public class GetPosesGridQuery : IRequest<IEnumerable<PosesGridViewModel>>
     {
         public DataTablesParameters DataTablesParameters { get; set; }
         public string Name { get; set; }
@@ -19,7 +19,7 @@ namespace Application.Poses.Queries
         public string Address { get; set; }
     }
 
-    public class GetAllPosQueryHandler : IRequestHandler<GetAllPosQuery, IEnumerable<PosesGridViewModel>>
+    public class GetAllPosQueryHandler : IRequestHandler<GetPosesGridQuery, IEnumerable<PosesGridViewModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -27,7 +27,7 @@ namespace Application.Poses.Queries
         {
             _context = context;
         }
-        public async Task<IEnumerable<PosesGridViewModel>> Handle(GetAllPosQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PosesGridViewModel>> Handle(GetPosesGridQuery request, CancellationToken cancellationToken)
         {
 
             bool hasValue = request.Name != null;

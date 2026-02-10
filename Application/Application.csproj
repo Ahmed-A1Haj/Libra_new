@@ -252,7 +252,8 @@
     <Compile Include="Poses\Commands\EditPosCommand.cs" />
     <Compile Include="Poses\Queries\GetAllCitiesQuery.cs" />
     <Compile Include="Poses\Queries\GetAllConnectionTypes.cs" />
-    <Compile Include="Poses\Queries\GetAllPosQuery.cs" />
+    <Compile Include="Poses\Queries\GetAllPosesQuery.cs" />
+    <Compile Include="Poses\Queries\GetPosesGridQuery.cs" />
     <Compile Include="Poses\Queries\GetPosByIdGridQuery.cs" />
     <Compile Include="Poses\Queries\GetPosByIdQuery.cs" />
     <Compile Include="Poses\ViewModels\AddPosValidator.cs" />

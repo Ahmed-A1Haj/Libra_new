@@ -46,7 +46,7 @@ namespace Libra.Controllers
             try
             {
                 //dataTablesParameters.Search.Value =
-                var Poses = await _mediator.Send(new GetAllPosQuery() 
+                var Poses = await _mediator.Send(new GetPosesGridQuery() 
                 { 
                     DataTablesParameters = dataTablesParameters, 
                     Name = posName, 
