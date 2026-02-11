@@ -29,7 +29,6 @@ namespace Application.Extentions
                    .AsClosedTypesOf(typeof(IRequestHandler<,>))
                    .InstancePerLifetimeScope();
 
-            builder.RegisterHubs(Assembly.GetExecutingAssembly());
         }
     }
 }

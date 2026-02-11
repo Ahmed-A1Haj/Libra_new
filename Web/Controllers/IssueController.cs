@@ -16,6 +16,7 @@ using System.Web.Mvc;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class IssueController : Controller
     {
         private readonly IMediator _mediator;
@@ -209,6 +210,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> GetEditIssue(int id)
         {
             var model = await _mediator.Send(new GetIssueByIdQuery() { Id = id});
@@ -229,6 +231,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> EditIssue(EditIssueViewModel model)
         {
             var validationResult = _EditIssueValidator.Validate(model);
@@ -317,6 +320,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> GetDeleteIssue(int id)
         {
             var issue = await _mediator.Send(new GetIssueDetailsQuery() { Id = id });
@@ -325,6 +329,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> DeleteIssue(int id)
         {
             await _mediator.Send(new DeleteIssueCommand() { Id = id });
