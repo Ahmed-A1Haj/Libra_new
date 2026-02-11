@@ -186,6 +186,7 @@ namespace Libra.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> GetEditPos(int id)
         {
             PosViewModel pos = await _mediator.Send(new GetPosByIdQuery() { Id = id });
@@ -237,6 +238,7 @@ namespace Libra.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> EditPos(EditPosViewModel model)
         {
             var validationResult = _EditPosValidator.Validate(model);
@@ -287,6 +289,7 @@ namespace Libra.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> GetDeletePos(int id)
         {
             var pos = await _mediator.Send(new GetPosByIdQuery() { Id = id });
@@ -321,6 +324,7 @@ namespace Libra.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin,Technical group")]
         public async Task<ActionResult> DeletePos(int id)
         {
             await _mediator.Send(new DeletePosCommand() { Id = id });

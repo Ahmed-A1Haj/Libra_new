@@ -18,9 +18,14 @@
 
 <div class="table-actions">
     <button class="btn btn-success" id="addIssueBtn">Add Issue</button>
-    <button class="btn btn-primary" id="editIssueBtn" disabled>Edit Issue</button>
+
+    @if (User.IsInRole("admin") || User.IsInRole("Technical group"))
+    {
+        <button class="btn btn-primary" id="editIssueBtn" disabled>Edit Issue</button>
+        <button class="btn btn-danger" id="DeleteIssueBtn" disabled>Delete</button>
+    }
+
     <button class="btn btn-secondary" id="IssueDetailsBtn" disabled>Details</button>
-    <button class="btn btn-danger" id="DeleteIssueBtn" disabled>Delete</button>
 </div>
 
 
@@ -30,6 +35,7 @@
 
 
 <script>
+    // status for dashboard funcitonality
     var stat = "";
     initDataTables();
     initTableInteractions("IssuesTable", "Issue", "Issue");

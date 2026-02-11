@@ -227,6 +227,7 @@
     <Compile Include="Issues\Commands\AddIssueCommandHandler.cs" />
     <Compile Include="Issues\Commands\DeleteIssueCommand.cs" />
     <Compile Include="Issues\Commands\EditIssueCommandHandler.cs" />
+    <Compile Include="Issues\Queries\GetAllIssuesQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueByIdQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueDetailsQuery.cs" />
     <Compile Include="Issues\Queries\GetIssueLogsQuery.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="Issues\ViewModels\LogGridViewModel.cs" />
     <Compile Include="Issues\ViewModels\Priority.cs" />
     <Compile Include="Poses\Commands\AddPosCommand.cs" />
+    <Compile Include="Poses\Commands\AddPosListCommand.cs" />
     <Compile Include="Poses\Commands\DeletePosCommand.cs" />
     <Compile Include="Poses\Commands\EditPosCommand.cs" />
     <Compile Include="Poses\Queries\GetAllCitiesQuery.cs" />

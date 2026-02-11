@@ -1,6 +1,8 @@
-﻿using Application.Poses.Queries;
+﻿using Application.Issues.Queries;
+using Application.Poses.Commands;
+using Application.Poses.Queries;
 using Application.Poses.ViewModels;
-using Application.Users.Queries;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace LibraAPI.Controllers
 {
@@ -21,32 +22,77 @@ namespace LibraAPI.Controllers
             _mediator = mediator;
         }
         // GET: api/Poses
-        public async Task<IHttpActionResult> Get()
+        [HttpGet]
+        [Route("api/poses")]
+        public async Task<IHttpActionResult> GetPoses()
         {
             var poses = await _mediator.Send(new GetAllPosesQuery());
 
             return Ok(poses);
         }
 
-        // GET: api/Poses/5
-        public string Get(int id)
+        [HttpGet]
+        [Route("api/poses/issues")]
+        public async Task<IHttpActionResult> GetIssues()
         {
-            return "hello";
+            var issues = await _mediator.Send(new GetAllIssuesQuery());
+
+            return Ok(issues);
+        }
+
+        // GET: api/Poses/5
+        [HttpGet]
+        [Route("api/poses/GetPos/{id}")]
+        public async Task<IHttpActionResult> GetPosById(int id)
+        {
+            var pos = await _mediator.Send(new GetPosByIdQuery() { Id = id });
+
+            return Ok(pos);
         }
 
         // POST: api/Poses
-        public void Post([FromBody]string value)
+        [HttpPost]
+        [Route("api/poses/addPos")]
+        public async Task<IHttpActionResult> AddPoese(List<AddPosViewModel> poses)
         {
+            try
+            {
+                var result = await _mediator.Send(new AddPosListCommand() { Poses = poses });
+                
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // PUT: api/Poses/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        [Route("api/poses/editPos")]
+        public async Task<IHttpActionResult> UpdatePos(EditPosViewModel value)
         {
+            try
+            {
+                var result = await _mediator.Send(new EditPosViewModel());
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // DELETE: api/Poses/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/poses/deletePos/{id}")]
+        public async Task<Unit> DeletePos(int id)
         {
+            await _mediator.Send(new DeletePosCommand() { Id = id });
+
+            return Unit.Value;
         }
     }
 }
