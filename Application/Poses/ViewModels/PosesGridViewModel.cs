@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Poses.ViewModels
 {
+    [Serializable]
     public class PosesGridViewModel
     {
         public int Id { get; set; }

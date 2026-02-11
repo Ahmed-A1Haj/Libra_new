@@ -25,21 +25,15 @@ namespace Application.Users.Queries
         }
         public async Task<IEnumerable<RoleViewModel>> Handle(GetUserRolesQuery request, CancellationToken cancellationToken)
         {
-            var roles = await _context.UserTypes.ToListAsync(cancellationToken) ;
-
-            var resultRoles = new List<RoleViewModel>();
-
-            foreach(var role in roles)
-            {
-                var temp = new RoleViewModel
+            var roles = await _context.UserTypes
+                .Select(role => new RoleViewModel
                 {
                     Id = role.Id,
                     Role = role.Type
-                };
-                resultRoles.Add(temp);
-            }
+                })
+                .ToListAsync(cancellationToken);
 
-            return resultRoles;
+            return roles;
         }
     }
 }
